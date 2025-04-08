@@ -11,31 +11,30 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "board_image")
+@Builder
 public class BoardImage extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(nullable = false)
   private String imagePath;
+
+  @Column(nullable = false)
+  private String originalFileName;
 
   @ManyToOne
   @JoinColumn(name = "board_id")
   private Board board;
-
-  @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-  private LocalDateTime createdAt;
-
-  public BoardImage(Board board, String imagePath) {
-    this.imagePath = imagePath;
-    this.board = board;
-    this.createdAt = LocalDateTime.now();
-  }
 }

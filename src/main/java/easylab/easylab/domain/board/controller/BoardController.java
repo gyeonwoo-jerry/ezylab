@@ -3,7 +3,11 @@ package easylab.easylab.domain.board.controller;
 import easylab.easylab.domain.auth.resolver.AuthenticationUserId;
 import easylab.easylab.domain.board.dto.BoardRequestDto;
 import easylab.easylab.domain.board.dto.BoardResponseDto;
+import easylab.easylab.domain.board.dto.BoardUpdateDto;
 import easylab.easylab.domain.board.service.BoardService;
+import easylab.easylab.domain.common.response.ApiResponse;
+import easylab.easylab.domain.common.response.PageResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,42 +34,49 @@ public class BoardController {
   private final BoardService boardService;
 
   @PostMapping("/board")
-  public ResponseEntity<BoardResponseDto> createBoard (
-      @ModelAttribute("request") BoardRequestDto request,
+  public ApiResponse<Void> createBoard (
+      @RequestPart("request") BoardRequestDto request,
       @AuthenticationUserId Long userId,
-      @RequestParam ("images") List<MultipartFile> images
+      @RequestPart(value = "images", required = false) List<MultipartFile> images
   ) {
-    BoardResponseDto responseDto = boardService.createBoard(request, userId, images);
-    return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+    boardService.createBoard(request, userId, images);
+    return ApiResponse.success("게시판 생성 완료", null);
   }
 
   @GetMapping("/boards")
-  public ResponseEntity<Page<BoardResponseDto>> getBoards (
+  public ApiResponse<PageResponse<BoardResponseDto>> getBoards (
       @RequestParam(defaultValue = "1") int page,
-      @RequestParam(defaultValue = "10") int size,
-      @RequestParam(defaultValue = "createdAt") String sortBy,
-      @RequestParam(defaultValue = "true") boolean isAsc
+      @RequestParam(defaultValue = "10") int size
   ) {
-    Page<BoardResponseDto> responseDto = boardService.getBoards(page-1, size, sortBy, isAsc);
-    return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    PageResponse<BoardResponseDto> boardList = boardService.getBoards(page, size);
+    return ApiResponse.success("게시판 목록 조회 성공", boardList);
+  }
+
+  @GetMapping("/board")
+  public ApiResponse<BoardResponseDto> getBoard (
+      @PathVariable("boardId") Long boardId,
+      HttpServletRequest request
+  ) {
+    return ApiResponse.success("게시판 조회 성공", boardService.getBoard(boardId, request));
   }
 
   @PutMapping("/{boardId}")
-  public ResponseEntity<BoardResponseDto> updateBoard (
+  public ApiResponse<Void> updateBoard (
       @PathVariable Long boardId,
-      @RequestBody BoardRequestDto request,
-      @AuthenticationUserId Long userId
+      @RequestBody BoardUpdateDto update,
+      @AuthenticationUserId Long userId,
+      @RequestPart(value = "images", required = false) List<MultipartFile> images
   ) {
-    BoardResponseDto responseDto = boardService.updateBoard(boardId, request, userId);
-    return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    boardService.updateBoard(boardId, update, userId, images);
+    return ApiResponse.success("게시판 수정 성공", null);
   }
 
   @DeleteMapping("/{boardId}")
-  public ResponseEntity<Void> deleteBoard (
-      @PathVariable Long boardId,
+  public ApiResponse<Void> deleteBoard (
+      @PathVariable("boardId") Long boardId,
       @AuthenticationUserId Long userId
   ) {
     boardService.deleteBoard(boardId, userId);
-    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    return ApiResponse.success("게시판 삭제 성공", null);
   }
 }
