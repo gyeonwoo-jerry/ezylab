@@ -4,7 +4,6 @@ import easylab.easylab.domain.board.dto.BoardRequestDto;
 import easylab.easylab.domain.board.dto.BoardResponseDto;
 import easylab.easylab.domain.board.dto.BoardUpdateDto;
 import easylab.easylab.domain.board.entity.Board;
-import easylab.easylab.domain.board.repository.BoardImageRepository;
 import easylab.easylab.domain.board.repository.BoardRepository;
 import easylab.easylab.domain.common.response.PageResponse;
 import easylab.easylab.domain.user.entity.User;
@@ -28,7 +27,6 @@ public class BoardService {
   private final BoardRepository boardRepository;
   private final UserRepository userRepository;
   private final BoardImageService boardImageService;
-  private final BoardImageRepository boardImageRepository;
 
   public void createBoard(BoardRequestDto request, Long userId, List<MultipartFile> images) {
     User user = userRepository.findById(userId).orElseThrow(()-> new IllegalArgumentException("유저를 찾을 수 없습니다."));

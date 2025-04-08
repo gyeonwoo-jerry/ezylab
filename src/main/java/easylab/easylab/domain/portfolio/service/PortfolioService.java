@@ -6,6 +6,7 @@ import easylab.easylab.domain.portfolio.entity.Portfolio;
 import easylab.easylab.domain.portfolio.repository.PortfolioRepository;
 import easylab.easylab.domain.user.entity.User;
 import easylab.easylab.domain.user.repository.UserRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +24,7 @@ public class PortfolioService {
   private final PortfolioRepository portfolioRepository;
   private final UserRepository userRepository;
 
-  public PortfolioResponseDto createPortfolio(PortfolioRequestDto request, Long userId) {
+  public void createPortfolio(PortfolioRequestDto request, Long userId, List<MultipartFile> images) {
     User user = userRepository.findById(userId).orElseThrow(()-> new IllegalArgumentException("유저를 찾을 수 없습니다."));
 
     Portfolio portfolio = Portfolio.of(user, request.title(), request.content());

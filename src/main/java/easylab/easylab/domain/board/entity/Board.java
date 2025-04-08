@@ -41,6 +41,7 @@ public class Board extends BaseEntity {
 
   private String content;
 
+  @Builder.Default
   @Column(name = "is_deleted", nullable = false, length = 1)
   private String isDeleted = "N";
 
