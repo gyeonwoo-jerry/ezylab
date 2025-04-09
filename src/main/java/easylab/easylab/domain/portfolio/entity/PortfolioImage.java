@@ -1,4 +1,4 @@
-package easylab.easylab.domain.board.entity;
+package easylab.easylab.domain.portfolio.entity;
 
 import easylab.easylab.domain.common.BaseEntity;
 import jakarta.persistence.Column;
@@ -18,10 +18,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "board_image")
+@Table(name = "portfolio_image")
 @Builder
-public class BoardImage extends BaseEntity {
-
+public class PortfolioImage extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -33,6 +32,6 @@ public class BoardImage extends BaseEntity {
   private String originalFileName;
 
   @ManyToOne
-  @JoinColumn(name = "board_id")
-  private Board board;
+  @JoinColumn(name = "portfolio_id")
+  private Portfolio portfolio;
 }

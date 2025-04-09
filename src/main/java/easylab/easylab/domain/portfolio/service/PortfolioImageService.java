@@ -1,8 +1,11 @@
-package easylab.easylab.domain.board.service;
+package easylab.easylab.domain.portfolio.service;
 
 import easylab.easylab.domain.board.entity.Board;
 import easylab.easylab.domain.board.entity.BoardImage;
 import easylab.easylab.domain.board.repository.BoardImageRepository;
+import easylab.easylab.domain.portfolio.entity.Portfolio;
+import easylab.easylab.domain.portfolio.entity.PortfolioImage;
+import easylab.easylab.domain.portfolio.repository.PortfolioImageRepository;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -21,32 +24,32 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class BoardImageService {
+public class PortfolioImageService {
 
   @Value("${filepath}")
   private String filepath;
 
-  private final BoardImageRepository boardImageRepository;
+  private final PortfolioImageRepository portfolioImageRepository;
 
-  public void uploadImage(Board board, List<MultipartFile> images) {
+  public void uploadImage(Portfolio portfolio, List<MultipartFile> images) {
     if (images == null || images.isEmpty()) {
       return;
     }
 
     try {
-      String uploads = filepath+"board/";
+      String uploads = filepath+"portfolio/";
 
       for (MultipartFile image : images) {
         String originalFileName = image.getOriginalFilename();
         String dbFilePath = saveImage(image, uploads);
 
-        BoardImage boardImage = BoardImage.builder()
-            .board(board)
+        PortfolioImage portfolioImage = PortfolioImage.builder()
+            .portfolio(portfolio)
             .imagePath(dbFilePath)
             .originalFileName(originalFileName)
             .build();
 
-        boardImageRepository.save(boardImage);
+        portfolioImageRepository.save(portfolioImage);
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -75,24 +78,24 @@ public class BoardImageService {
     return filePath; // DB에 저장할 파일 경로 반환
   }
 
-  public void updateImages(Board board, List<MultipartFile> newImages) {
+  public void updateImages(Portfolio portfolio, List<MultipartFile> newImages) {
 
     if (newImages == null || newImages.isEmpty()) {
       return;
     }
     // 1. 기존 이미지 조회
-    List<BoardImage> existingImages = boardImageRepository.findByBoardId(board.getId());
+    List<PortfolioImage> existingImages = portfolioImageRepository.findByPortfolioId(portfolio.getId());
 
     // 2. 기존 이미지 파일 삭제 및 엔티티 삭제
-    for (BoardImage existingImage : existingImages) {
+    for (PortfolioImage existingImage : existingImages) {
       // 물리적 파일 삭제
       deletePhysicalFile(existingImage.getImagePath(), existingImage.getOriginalFileName());
       // 엔티티 삭제
-      boardImageRepository.delete(existingImage);
+      portfolioImageRepository.delete(existingImage);
     }
 
     // 3. 새로운 이미지 업로드
-    uploadImage(board, newImages);
+    uploadImage(portfolio, newImages);
   }
 
   private void deletePhysicalFile(String dbDirPath, String originalFileName) {

@@ -21,10 +21,9 @@ public class JwtProvider {
     this.secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
   }
 
-  public String createToken(final Long id, final Role role) {
+  public String createToken(final Long id) {
     final Date now = new Date();
     final Claims claims = Jwts.claims().setSubject(String.valueOf(id));
-    claims.put("role", role);
     return Jwts.builder()
         .setClaims(claims)
         .setIssuedAt(now)
