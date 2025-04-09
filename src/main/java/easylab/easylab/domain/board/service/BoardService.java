@@ -86,7 +86,7 @@ public class BoardService {
   public void deleteBoard(Long boardId, Long userId) {
     Board board = boardRepository.findById(boardId).orElseThrow(()-> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
 
-    User user = userRepository.findById(userId).orElseThrow(()-> new IllegalArgumentException("유저를 찾을 수 없습니다."));
+    userRepository.findById(userId).orElseThrow(()-> new IllegalArgumentException("유저를 찾을 수 없습니다."));
 
     if (!board.getUser().getId().equals(userId)) {
       throw new IllegalArgumentException("게시글 삭제 권한이 없습니다.");

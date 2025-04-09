@@ -45,7 +45,7 @@ public class BoardController {
 
   @GetMapping("/boards")
   public ApiResponse<PageResponse<BoardResponseDto>> getBoards (
-      @RequestParam(defaultValue = "1") int page,
+      @RequestParam(defaultValue = "0") int page,
       @RequestParam(defaultValue = "10") int size
   ) {
     PageResponse<BoardResponseDto> boardList = boardService.getBoards(page, size);

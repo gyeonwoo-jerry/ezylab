@@ -1,7 +1,7 @@
 package easylab.easylab.domain.portfolio.entity;
 
-import easylab.easylab.domain.BaseEntity;
-import easylab.easylab.domain.board.entity.BoardImage;
+import easylab.easylab.domain.common.BaseEntity;
+import easylab.easylab.domain.portfolio.dto.PortfolioUpdateDto;
 import easylab.easylab.domain.user.entity.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -14,7 +14,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -56,8 +55,21 @@ public class Portfolio extends BaseEntity {
   @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<PortfolioImage> images = new ArrayList<>();
 
-  public void updatePortfolio(String title, String content) {
-    this.title = title;
-    this.content = content;
+  public void updatePortfolio(PortfolioUpdateDto update) {
+    update.title().ifPresent(title -> {
+      if (!title.isBlank()) this.title = title;
+    });
+
+    update.content().ifPresent(content -> {
+      if (!content.isBlank()) this.content = content;
+    });
+  }
+
+  public void increaseViewCount() {
+    this.viewCount += 1;
+  }
+
+  public void softDelete() {
+    this.isDeleted = "Y";
   }
 }

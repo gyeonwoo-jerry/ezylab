@@ -3,9 +3,12 @@ package easylab.easylab.domain.portfolio.controller;
 import easylab.easylab.domain.auth.resolver.AuthenticationUserId;
 import easylab.easylab.domain.board.dto.BoardResponseDto;
 import easylab.easylab.domain.common.response.ApiResponse;
+import easylab.easylab.domain.common.response.PageResponse;
 import easylab.easylab.domain.portfolio.dto.PortfolioRequestDto;
 import easylab.easylab.domain.portfolio.dto.PortfolioResponseDto;
+import easylab.easylab.domain.portfolio.dto.PortfolioUpdateDto;
 import easylab.easylab.domain.portfolio.service.PortfolioService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -46,32 +49,40 @@ public class PortfolioController {
   }
 
   @GetMapping("/portfolios")
-  public ResponseEntity<Page<PortfolioResponseDto>> getPortfolios (
-      @RequestParam(defaultValue = "1") int page,
-      @RequestParam(defaultValue = "10") int size,
-      @RequestParam(defaultValue = "createdAt") String sortBy,
-      @RequestParam(defaultValue = "true") boolean isAsc
+  public ApiResponse<PageResponse<PortfolioResponseDto>> getPortfolios (
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "10") int size
   ) {
-    Page<PortfolioResponseDto> responseDto = portfolioService.getPortfolios(page-1, size, sortBy, isAsc);
-    return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    PageResponse<PortfolioResponseDto> portfolioList = portfolioService.getPortfolios(page, size);
+    return ApiResponse.success("포트폴리오 목록 조회 성공", portfolioList);
   }
 
-  @PutMapping("/portfolio/{portfolioId}")
-  public ResponseEntity<PortfolioResponseDto> updatePortfolio (
-      @PathVariable Long portfolioId,
-      @RequestBody PortfolioRequestDto request,
-      @AuthenticationUserId Long userId
+  @GetMapping("/portfolio")
+  public ApiResponse<PortfolioResponseDto> getPortfolio (
+      @PathVariable("portfolioId") Long portfolioId,
+      HttpServletRequest request
   ) {
-    PortfolioResponseDto responseDto = portfolioService.updatePortfolio(portfolioId, request, userId);
-    return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    return ApiResponse.success("포트폴리오 조회 성공", portfolioService.getPortfolio(portfolioId, request));
+  }
+
+
+  @PutMapping("/portfolio/{portfolioId}")
+  public ApiResponse<Void> updatePortfolio (
+      @PathVariable Long portfolioId,
+      @RequestBody PortfolioUpdateDto update,
+      @AuthenticationUserId Long userId,
+      @RequestPart(value = "images", required = false) List<MultipartFile> images
+  ) {
+    portfolioService.updatePortfolio(portfolioId, update, userId, images);
+    return ApiResponse.success("포트폴리오 수정 성공", null);
   }
 
   @DeleteMapping("/portfolio/{portfolioId}")
-  public ResponseEntity<Void> deletePortfolio (
-      @PathVariable Long portfolioId,
+  public ApiResponse<Void> deletePortfolio (
+      @PathVariable("portfolioId") Long portfolioId,
       @AuthenticationUserId Long userId
   ) {
     portfolioService.deletePortfolio(portfolioId, userId);
-    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    return ApiResponse.success("포트폴리오 삭제 성공", null);
   }
 }

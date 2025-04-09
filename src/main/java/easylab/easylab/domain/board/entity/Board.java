@@ -1,6 +1,6 @@
 package easylab.easylab.domain.board.entity;
 
-import easylab.easylab.domain.BaseEntity;
+import easylab.easylab.domain.common.BaseEntity;
 import easylab.easylab.domain.board.dto.BoardUpdateDto;
 import easylab.easylab.domain.user.entity.User;
 import jakarta.persistence.CascadeType;
@@ -14,7 +14,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;

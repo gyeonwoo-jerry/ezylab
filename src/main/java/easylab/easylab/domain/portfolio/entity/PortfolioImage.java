@@ -1,7 +1,6 @@
 package easylab.easylab.domain.portfolio.entity;
 
-import easylab.easylab.domain.BaseEntity;
-import easylab.easylab.domain.board.entity.Board;
+import easylab.easylab.domain.common.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

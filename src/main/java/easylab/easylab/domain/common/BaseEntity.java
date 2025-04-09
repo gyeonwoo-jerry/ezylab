@@ -1,4 +1,4 @@
-package easylab.easylab.domain;
+package easylab.easylab.domain.common;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
