@@ -1,0 +1,63 @@
+.App {
+  text-align: center;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* 공통 네비게이션 */
+.black-nav {
+  background: #212529;
+  color: white;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 50px;
+  font-weight: 700;
+  font-size: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.logo {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.center-menu {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  flex: 1;
+}
+
+.center-menu span {
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.center-menu span:hover {
+  color: #0d6efd;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.auth-buttons button {
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.auth-buttons button:hover {
+  background: white;
+  color: #212529;
+}
