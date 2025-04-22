@@ -4,18 +4,15 @@ import easylab.easylab.domain.auth.resolver.AuthenticationUserId;
 import easylab.easylab.domain.board.dto.BoardRequestDto;
 import easylab.easylab.domain.board.dto.BoardResponseDto;
 import easylab.easylab.domain.board.dto.BoardUpdateDto;
+import easylab.easylab.domain.board.entity.SearchType;
 import easylab.easylab.domain.board.service.BoardService;
 import easylab.easylab.domain.common.response.ApiResponse;
 import easylab.easylab.domain.common.response.PageResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -45,14 +42,16 @@ public class BoardController {
 
   @GetMapping("/boards")
   public ApiResponse<PageResponse<BoardResponseDto>> getBoards (
-      @RequestParam(defaultValue = "0") int page,
-      @RequestParam(defaultValue = "10") int size
+      @RequestParam(defaultValue = "1") int page,
+      @RequestParam(defaultValue = "10") int size,
+      @RequestParam(required = false) String search,
+      @RequestParam(required = false) SearchType searchType
   ) {
-    PageResponse<BoardResponseDto> boardList = boardService.getBoards(page, size);
+    PageResponse<BoardResponseDto> boardList = boardService.getBoards(page, size, search, searchType);
     return ApiResponse.success("게시판 목록 조회 성공", boardList);
   }
 
-  @GetMapping("/board")
+  @GetMapping("/board/{boardId}")
   public ApiResponse<BoardResponseDto> getBoard (
       @PathVariable("boardId") Long boardId,
       HttpServletRequest request
@@ -60,7 +59,7 @@ public class BoardController {
     return ApiResponse.success("게시판 조회 성공", boardService.getBoard(boardId, request));
   }
 
-  @PutMapping("/{boardId}")
+  @PutMapping("/board/{boardId}")
   public ApiResponse<Void> updateBoard (
       @PathVariable Long boardId,
       @RequestBody BoardUpdateDto update,
@@ -71,7 +70,7 @@ public class BoardController {
     return ApiResponse.success("게시판 수정 성공", null);
   }
 
-  @DeleteMapping("/{boardId}")
+  @DeleteMapping("/board/{boardId}")
   public ApiResponse<Void> deleteBoard (
       @PathVariable("boardId") Long boardId,
       @AuthenticationUserId Long userId

@@ -1,0 +1,82 @@
+@font-face {
+    font-family: 'Neue Einstellung';
+    src: url('NeueEinstellung-Medium.woff') format('woff'),
+         url('NeueEinstellung-Medium.woff2') format('woff2');
+         
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Neue Einstellung';
+    src: url('NeueEinstellung-Normal.woff') format('woff'),
+         url('NeueEinstellung-Normal.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Neue Einstellung';
+    src: url('NeueEinstellung-Light.woff') format('woff'),
+         url('NeueEinstellung-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Neue Einstellung';
+    src: url('NeueEinstellung-Bold.woff') format('woff'),
+         url('NeueEinstellung-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Neue Einstellung';
+    src: url('NeueEinstellung-ExtraBold.woff') format('woff'),
+         url('NeueEinstellung-ExtraBold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Neue Einstellung';
+    src: url('NeueEinstellung-Black.woff') format('woff'),
+         url('NeueEinstellung-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Neue Einstellung';
+    src: url('NeueEinstellung-Thin.woff') format('woff'),
+         url('NeueEinstellung-Thin.woff2') format('woff2');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Neue Einstellung';
+    src: url('NeueEinstellung-Regular.woff') format('woff'),
+         url('NeueEinstellung-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Neue Einstellung';
+    src: url('NeueEinstellung-SemiBold.woff') format('woff'),
+         url('NeueEinstellung-Medium.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+

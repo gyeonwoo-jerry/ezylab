@@ -4,6 +4,7 @@ import easylab.easylab.domain.board.dto.BoardRequestDto;
 import easylab.easylab.domain.board.dto.BoardResponseDto;
 import easylab.easylab.domain.board.dto.BoardUpdateDto;
 import easylab.easylab.domain.board.entity.Board;
+import easylab.easylab.domain.board.entity.SearchType;
 import easylab.easylab.domain.board.repository.BoardRepository;
 import easylab.easylab.domain.common.response.PageResponse;
 import easylab.easylab.domain.user.entity.User;
@@ -14,6 +15,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,15 +45,14 @@ public class BoardService {
   }
 
   @Transactional(readOnly = true)
-  public PageResponse<BoardResponseDto> getBoards(int page, int size) {
-    PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+  public PageResponse<BoardResponseDto> getBoards(int page, int size, String search, SearchType searchType) {
+    Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "createdAt"));
 
-    Page<Board> boards = boardRepository.findAll(pageRequest);
+    Page<Board> boards = boardRepository.searchBoards(search, searchType, pageable);
 
-    Page<BoardResponseDto> allBoards = boards.map(BoardResponseDto::from);
-
-    return PageResponse.fromPage(allBoards);
+    return PageResponse.fromPage(boards.map(BoardResponseDto::from));
   }
+
 
   public BoardResponseDto getBoard(Long boardId, HttpServletRequest request) {
     Board board = boardRepository.findById(boardId).orElseThrow(()-> new IllegalArgumentException("게시물을 찾을 수 없습니다."));

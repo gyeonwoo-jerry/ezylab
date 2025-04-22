@@ -52,6 +52,7 @@ public class Portfolio extends BaseEntity {
   @JoinColumn(name = "user_id")
   private User user;
 
+  @Builder.Default
   @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<PortfolioImage> images = new ArrayList<>();
 

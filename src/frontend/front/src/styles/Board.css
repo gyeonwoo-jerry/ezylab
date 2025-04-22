@@ -1,0 +1,149 @@
+.board-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+
+  /* 화면 전체 높이를 기준으로 최소 높이 확보 */
+  min-height: calc(100vh - 150px);
+  display: flex;
+  flex-direction: column;
+}
+
+.board-title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  color: #333;
+}
+
+.board-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  /* 게시글 목록이 빈 공간을 채우게 */
+  flex-grow: 1;
+}
+
+.board-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.board-item:hover {
+  background-color: #f9f9f9;
+}
+
+.board-item strong {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.board-item span {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* 게시글이 없을 때 표시하는 스타일 */
+.board-empty {
+  text-align: center;
+  padding: 50px 0;
+  color: #999;
+  font-size: 1.2rem;
+}
+
+.board-bottom-controls {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.board-search {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.board-search input {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 250px;
+}
+
+.search-type {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.board-search button {
+  padding: 8px 16px;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.board-search button:hover {
+  background-color: #3730a3;
+}
+
+.board-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.board-pagination button {
+  padding: 8px 16px;
+  background-color: #e5e7eb;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.board-pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.board-pagination button:hover:not(:disabled) {
+  background-color: #d1d5db;
+}
+
+.board-pagination span {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .board-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .board-search {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .board-search input {
+    width: 100%;
+  }
+}

@@ -1,23 +1,24 @@
-import './App.css';
-import Intro from './Intro';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import Board from './pages/Board';
+import BoardDetail from './pages/BoardDetail';
+import Header from './components/Header';
+import './styles/index.css';
+import './styles/style.css';
 
 function App() {
   return (
-      <div className="App">
-        <div className="black-nav">
-          <div className="logo">EZYLAB</div>
-          <div className="center-menu">
-            <span>소개</span>
-            <span>포트폴리오</span>
-            <span>게시판</span>
-          </div>
-          <div className="auth-buttons">
-            <button>회원가입</button>
-            <button>로그인</button>
-          </div>
+      <Router>
+        <div className="App">
+          <Header />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/board" element={<Board />} />
+            <Route path="/board/:id" element={<BoardDetail />} />
+          </Routes>
         </div>
-        <Intro />
-      </div>
+      </Router>
   );
 }
 

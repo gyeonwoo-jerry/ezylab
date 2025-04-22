@@ -2,11 +2,15 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.4.1'
     id 'io.spring.dependency-management' version '1.1.7'
-    id 'war' // 추가
+    id 'war'
 }
 
 group = 'easylab'
 version = '0.0.1-SNAPSHOT'
+
+ext {
+    querydslVersion = "5.0.0"
+}
 
 java {
     toolchain {
@@ -35,21 +39,36 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
-    /* Database dependency */
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
 
-    // spring boot starter
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // JPA 사용
-    implementation 'org.springframework.boot:spring-boot-starter-validation' // Validation
-    implementation 'org.springframework.boot:spring-boot-starter-web' // Web Starter
-    implementation 'at.favre.lib:bcrypt:0.10.2' // bcrypt
-
-    // Swagger UI 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'at.favre.lib:bcrypt:0.10.2'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat' // 내장 Tomcat 제외
+    // Querydsl
+    implementation "com.querydsl:querydsl-jpa:${querydslVersion}:jakarta"
+    annotationProcessor "com.querydsl:querydsl-apt:${querydslVersion}:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api:2.1.1"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api:3.1.0"
+}
+
+// generated sources 설정
+def querydslDir = layout.buildDirectory.dir("generated/querydsl").get().asFile
+
+sourceSets {
+    main {
+        java {
+            srcDirs += querydslDir
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.annotationProcessorGeneratedSourcesDirectory = querydslDir
 }
 
 tasks.named('test') {
