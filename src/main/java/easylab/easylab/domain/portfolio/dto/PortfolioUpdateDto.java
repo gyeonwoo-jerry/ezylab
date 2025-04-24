@@ -4,7 +4,9 @@ import java.util.Optional;
 
 public record PortfolioUpdateDto(
     Optional<String> title,
-    Optional<String> content
+    Optional<String> content,
+    Optional<String> url,
+    Optional<String> type
 ) {
 
 }

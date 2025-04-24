@@ -34,9 +34,10 @@ public class BoardController {
   public ApiResponse<Void> createBoard (
       @RequestPart("request") BoardRequestDto request,
       @AuthenticationUserId Long userId,
-      @RequestPart(value = "images", required = false) List<MultipartFile> images
+      @RequestPart(value = "images", required = false) List<MultipartFile> images,
+      @RequestPart(value = "attachments", required = false) List<MultipartFile> attachments
   ) {
-    boardService.createBoard(request, userId, images);
+    boardService.createBoard(request, userId, images, attachments);
     return ApiResponse.success("게시판 생성 완료", null);
   }
 
@@ -64,9 +65,10 @@ public class BoardController {
       @PathVariable Long boardId,
       @RequestBody BoardUpdateDto update,
       @AuthenticationUserId Long userId,
-      @RequestPart(value = "images", required = false) List<MultipartFile> images
+      @RequestPart(value = "images", required = false) List<MultipartFile> images,
+      @RequestPart(value = "attachments", required = false) List<MultipartFile> attachments
   ) {
-    boardService.updateBoard(boardId, update, userId, images);
+    boardService.updateBoard(boardId, update, userId, images, attachments);
     return ApiResponse.success("게시판 수정 성공", null);
   }
 

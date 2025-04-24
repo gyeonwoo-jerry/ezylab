@@ -36,6 +36,8 @@ public class PortfolioService {
     Portfolio portfolio = Portfolio.builder()
         .title(request.title())
         .content(request.content())
+        .url(request.url())
+        .type(request.type())
         .user(user)
         .build();
 

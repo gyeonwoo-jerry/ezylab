@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class BoardImageService {
 
-  @Value("${filepath}")
+  @Value("${filepath.image}")
   private String filepath;
 
   private final BoardImageRepository boardImageRepository;

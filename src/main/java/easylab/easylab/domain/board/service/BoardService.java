@@ -29,8 +29,9 @@ public class BoardService {
   private final BoardRepository boardRepository;
   private final UserRepository userRepository;
   private final BoardImageService boardImageService;
+  private final BoardAttachmentService boardAttachmentService;
 
-  public void createBoard(BoardRequestDto request, Long userId, List<MultipartFile> images) {
+  public void createBoard(BoardRequestDto request, Long userId, List<MultipartFile> images, List<MultipartFile> attachments) {
     User user = userRepository.findById(userId).orElseThrow(()-> new IllegalArgumentException("유저를 찾을 수 없습니다."));
 
     Board board = Board.builder()
@@ -42,6 +43,7 @@ public class BoardService {
     boardRepository.save(board);
 
     boardImageService.uploadImage(board, images);
+    boardAttachmentService.uploadAttachment(board, attachments);
   }
 
   @Transactional(readOnly = true)
@@ -69,7 +71,7 @@ public class BoardService {
     return BoardResponseDto.from(board);
   }
 
-  public void updateBoard(Long boardId, BoardUpdateDto update, Long userId, List<MultipartFile> images) {
+  public void updateBoard(Long boardId, BoardUpdateDto update, Long userId, List<MultipartFile> images, List<MultipartFile> attachments) {
     Board board = boardRepository.findById(boardId).orElseThrow(()-> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
 
     userRepository.findById(userId).orElseThrow(()-> new IllegalArgumentException("유저를 찾을 수 없습니다."));
@@ -81,6 +83,7 @@ public class BoardService {
     board.updateBoard(update);
 
     boardImageService.updateImages(board, images);
+    boardAttachmentService.updateAttachments(board, attachments);
   }
 
 

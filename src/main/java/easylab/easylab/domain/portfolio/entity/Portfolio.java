@@ -36,9 +36,17 @@ public class Portfolio extends BaseEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(nullable = false)
   private String title;
 
+  @Column(nullable = false)
   private String content;
+
+  @Column(nullable = false)
+  private String url;
+
+  @Column(nullable = false)
+  private String type;
 
   @Builder.Default
   @Column(name = "is_deleted", nullable = false, length = 1)
@@ -63,6 +71,14 @@ public class Portfolio extends BaseEntity {
 
     update.content().ifPresent(content -> {
       if (!content.isBlank()) this.content = content;
+    });
+
+    update.url().ifPresent(url -> {
+      if (!url.isBlank()) this.url = url;
+    });
+
+    update.type().ifPresent(type -> {
+      if (!type.isBlank()) this.type = type;
     });
   }
 

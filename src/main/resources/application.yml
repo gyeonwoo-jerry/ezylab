@@ -4,4 +4,6 @@ spring:
   profiles:
     include: dev
 
-filepath: /uploads/images/
+filepath:
+  image: /uploads/images/
+  attachment: /uploads/attachments/

@@ -36,8 +36,10 @@ public class Board extends BaseEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(nullable = false)
   private String title;
 
+  @Column(nullable = false)
   private String content;
 
   @Builder.Default
@@ -55,6 +57,9 @@ public class Board extends BaseEntity {
   @Builder.Default
   @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<BoardImage> images = new ArrayList<>();
+
+  @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<BoardAttachment> attachments = new ArrayList<>();
 
   public void updateBoard(BoardUpdateDto update) {
     update.title().ifPresent(title -> {

@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class PortfolioImageService {
 
-  @Value("${filepath}")
+  @Value("${filepath.image}")
   private String filepath;
 
   private final PortfolioImageRepository portfolioImageRepository;
