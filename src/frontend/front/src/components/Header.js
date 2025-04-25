@@ -9,8 +9,8 @@ const Header = () => {
           <div className="logo">
             <Link to="/">
               <img
-                  src="/img/logo.png"
-                  srcSet="/img/logo@2x.png 2x, /img/logo@3x.png 3x"
+                  src="/images/logo.png"
+                  srcSet="/images/logo@2x.png 2x, /images/logo@3x.png 3x"
                   className="logo"
                   alt="EZYLAB"
               />

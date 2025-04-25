@@ -44,8 +44,8 @@ const HomePage = () => {
 
         <div className="scroll_down" onClick={handleScrollDown}>
           <img
-              src="/img/scroll_arrow.png"
-              srcSet="/img/scroll_arrow@2x.png 2x, /img/scroll_arrow@3x.png 3x"
+              src="/images/scroll_arrow.png"
+              srcSet="/images/scroll_arrow@2x.png 2x, /images/scroll_arrow@3x.png 3x"
               alt="아래로 스크롤"
           />
         </div>

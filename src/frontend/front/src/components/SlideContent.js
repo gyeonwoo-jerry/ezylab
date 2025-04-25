@@ -14,15 +14,15 @@ const SlideContent = ({ slideNum }) => {
                 <div className="img_group">
                   <div className="topimg">
                     <img
-                        src="/img/sec_01_img_01.png"
-                        srcSet="/img/sec_01_img_01@2x.png 2x, /img/sec_01_img_01@3x.png 3x"
+                        src="/images/sec_01_img_01.png"
+                        srcSet="/images/sec_01_img_01@2x.png 2x, /images/sec_01_img_01@3x.png 3x"
                         alt="이미지 1"
                     />
                   </div>
                   <div className="botimg">
                     <img
-                        src="/img/sec_01_img_02.png"
-                        srcSet="/img/sec_01_img_02@2x.png 2x, /img/sec_01_img_02@3x.png 3x"
+                        src="/images/sec_01_img_02.png"
+                        srcSet="/images/sec_01_img_02@2x.png 2x, /images/sec_01_img_02@3x.png 3x"
                         alt="이미지 2"
                     />
                   </div>
@@ -42,15 +42,15 @@ const SlideContent = ({ slideNum }) => {
                 <div className="img_group">
                   <div className="topimg">
                     <img
-                        src="/img/sec_02_img_01.png"
-                        srcSet="/img/sec_02_img_01@2x.png 2x, /img/sec_02_img_01@3x.png 3x"
+                        src="/images/sec_02_img_01.png"
+                        srcSet="/images/sec_02_img_01@2x.png 2x, /images/sec_02_img_01@3x.png 3x"
                         alt="이미지 1"
                     />
                   </div>
                   <div className="botimg">
                     <img
-                        src="/img/sec_02_img_02.png"
-                        srcSet="/img/sec_02_img_02@2x.png 2x, /img/sec_02_img_02@3x.png 3x"
+                        src="/images/sec_02_img_02.png"
+                        srcSet="/images/sec_02_img_02@2x.png 2x, /images/sec_02_img_02@3x.png 3x"
                         alt="이미지 2"
                     />
                   </div>
