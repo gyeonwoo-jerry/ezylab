@@ -7,6 +7,7 @@ import Portfolio from './pages/Portfolio';
 import PortfolioDetail from './pages/PortfolioDetail';
 import Board from './pages/Board';
 import BoardDetail from './pages/BoardDetail';
+import Contact from './pages/Contact';
 import './styles/index.css';
 import './styles/style.css';
 
@@ -21,6 +22,7 @@ function App() {
             <Route path="/board/:id" element={<BoardDetail />} />
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/portfolio/:id" element={<PortfolioDetail />} />
+            <Route path="/contact" element={<Contact />} />
           </Routes>
         </div>
       </Router>
