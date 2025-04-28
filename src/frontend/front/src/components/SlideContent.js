@@ -1,15 +1,15 @@
+// SlideContent.jsx
 import React from 'react';
 
-// 각 슬라이드의 콘텐츠를 표시하는 컴포넌트
 const SlideContent = ({ slideNum }) => {
   switch (slideNum) {
     case 1:
       return (
-          <div className="swiper-slide sec_01">
+          <div className="sec_01">
             <div className="inner">
               <div className="content">
                 <div className="word">
-                  살다보면<br /><font className="mint">"이런거 있으면 좋겠다~"</font><br />싶은거 있죠?
+                  당신의<br /><span className="mint">아이디어를</span><br />현실로 만들어드립니다.
                 </div>
                 <div className="img_group">
                   <div className="topimg">
@@ -33,11 +33,11 @@ const SlideContent = ({ slideNum }) => {
       );
     case 2:
       return (
-          <div className="swiper-slide sec_02">
+          <div className="sec_02">
             <div className="inner">
               <div className="content">
                 <div className="word">
-                  이지랩은 그런걸 만들어요<br /><font className="mint">"이런거 있으면 좋겠다"</font><br />싶은 것들,
+                  이지랩은 그런걸 만들어요<br /><span className="mint">"이런거 있으면 좋겠다"</span><br />싶은 것들,
                 </div>
                 <div className="img_group">
                   <div className="topimg">
@@ -61,7 +61,7 @@ const SlideContent = ({ slideNum }) => {
       );
     case 3:
       return (
-          <div className="swiper-slide sec_03">
+          <div className="sec_03">
             <div className="inner">
               <div className="content">
                 <div className="word">
@@ -73,7 +73,7 @@ const SlideContent = ({ slideNum }) => {
       );
     default:
       return (
-          <div className="swiper-slide">
+          <div>
             Slide {slideNum}
           </div>
       );

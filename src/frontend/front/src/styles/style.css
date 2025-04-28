@@ -118,3 +118,8 @@ header .menu ul li a:hover { color: #25252a; }
   height: 100%;
   object-fit: cover;
 }
+
+.homepage {
+  height: 100%;
+}
+

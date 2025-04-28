@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from 'react';
+// HomePage.js
+import React, { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Mousewheel } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
+import { register } from 'swiper/element/bundle';
+
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import Header from '../components/Header';
 import SlideContent from '../components/SlideContent';
+
+// Swiper 모듈 등록
+register();
 
 const HomePage = () => {
   const [swiper, setSwiper] = useState(null);
@@ -18,28 +23,18 @@ const HomePage = () => {
 
   return (
       <div className="homepage">
-        <Header />
 
-        {/* Swiper */}
         <Swiper
+            modules={[Pagination]}
             direction="vertical"
             mousewheel={true}
-            pagination={{
-              clickable: true,
-            }}
-            modules={[Pagination, Mousewheel]}
+            pagination={{ clickable: true }}
             className="mySwiper"
             onSwiper={setSwiper}
         >
           <SwiperSlide><SlideContent slideNum={1} /></SwiperSlide>
           <SwiperSlide><SlideContent slideNum={2} /></SwiperSlide>
           <SwiperSlide><SlideContent slideNum={3} /></SwiperSlide>
-          <SwiperSlide><SlideContent slideNum={4} /></SwiperSlide>
-          <SwiperSlide><SlideContent slideNum={5} /></SwiperSlide>
-          <SwiperSlide><SlideContent slideNum={6} /></SwiperSlide>
-          <SwiperSlide><SlideContent slideNum={7} /></SwiperSlide>
-          <SwiperSlide><SlideContent slideNum={8} /></SwiperSlide>
-          <SwiperSlide><SlideContent slideNum={9} /></SwiperSlide>
         </Swiper>
 
         <div className="scroll_down" onClick={handleScrollDown}>
