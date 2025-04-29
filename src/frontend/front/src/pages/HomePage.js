@@ -9,6 +9,8 @@ import 'swiper/css/pagination';
 
 import SlideContent from '../components/SlideContent';
 
+import '../styles/homepage.css';
+
 // Swiper 모듈 등록
 register();
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import '../styles/BoardDetail.css';
+import '../styles/boardDetail.css';
 
 function BoardDetail() {
   const { id } = useParams();

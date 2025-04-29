@@ -1,0 +1,89 @@
+/* 홈 메인화면 관련 스타일 */
+
+.inner {
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.sec_01 .img_group,
+.sec_02 .img_group {
+  margin-top: 80px;
+}
+
+.sec_01 .img_group .topimg {
+  width: 200px;
+  margin: 0 auto;
+}
+
+.sec_01 .img_group .botimg {
+  width: 267px;
+  margin: 0 auto;
+}
+
+.sec_02 .img_group {
+  margin-top: 50px;
+}
+
+.sec_02 .img_group .topimg {
+  width: 204px;
+  margin: 0 auto;
+}
+
+.sec_02 .img_group .botimg {
+  width: 128px;
+  margin: 20px auto 0;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper .scroll_down {
+  cursor: pointer;
+  display: inline-block;
+  width: 90px;
+  position: fixed;
+  z-index: 1001;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.swiper .scroll_down:active img {
+  transform: scale(0.9);
+  transition: 0.2s all;
+}
+
+.swiper .scroll_down img {
+  transition: 0.2s all;
+}
+
+.word {
+  font-size: 62px;
+  font-weight: 900;
+  line-height: 1.35;
+  letter-spacing: -1.55px;
+  text-align: center;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.homepage {
+  height: 100%;
+}

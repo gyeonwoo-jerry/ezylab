@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/Board.css';
+import '../styles/board.css';
 
 function Board() {
   const [boards, setBoards] = useState([]);

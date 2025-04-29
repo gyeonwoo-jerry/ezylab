@@ -1,8 +1,15 @@
-import React from 'react';
+// Header.js
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/style.css';
+import LoginModal from './LoginModal'; // 모달 컴포넌트 가져오기
+import '../styles/header.css';
 
 const Header = () => {
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+
+  const openLoginModal = () => setIsLoginOpen(true);
+  const closeLoginModal = () => setIsLoginOpen(false);
+
   return (
       <header>
         <div className="inner">
@@ -16,6 +23,7 @@ const Header = () => {
               />
             </Link>
           </div>
+
           <div className="menu">
             <ul>
               <li><Link to="/company">Company</Link></li>
@@ -26,7 +34,14 @@ const Header = () => {
               <li><Link to="/contact">Contact</Link></li>
             </ul>
           </div>
+
+          <div className="login">
+            <button onClick={openLoginModal}>LogIn</button>
+          </div>
         </div>
+
+        {/* 모달 분리된 컴포넌트 사용 */}
+        {isLoginOpen && <LoginModal closeModal={closeLoginModal} />}
       </header>
   );
 };
