@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import '../styles/board.css';
 
 function Board() {
@@ -9,6 +10,7 @@ function Board() {
   const [page, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAuth(); // 로그인 여부 확인
 
   const fetchBoards = (page, searchTerm = '', searchType = 'TITLE') => {
     fetch(`/api/boards?page=${page}&size=10&search=${searchTerm}&searchType=${searchType}`)
@@ -32,7 +34,7 @@ function Board() {
 
   return (
       <div className="board-container">
-        <h1 className="board-title"></h1>
+        <h1 className="board-title">게시판</h1>
 
         <ul className="board-list">
           {boards.length > 0 ? (
@@ -86,6 +88,13 @@ function Board() {
               다음 ▶
             </button>
           </div>
+
+          {/* 로그인한 사용자에게만 글쓰기 버튼 표시 */}
+          {user && (
+              <div className="board-write-button">
+                <button onClick={() => navigate('/board/write')}>글쓰기</button>
+              </div>
+          )}
         </div>
       </div>
   );

@@ -1,7 +1,6 @@
 package easylab.easylab.domain.auth.filter;
 
 import easylab.easylab.domain.auth.jwt.JwtProvider;
-import easylab.easylab.domain.user.entity.Role;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -12,7 +11,6 @@ import java.io.IOException;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,14 +21,16 @@ public class AuthenticationFilter implements Filter {
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-    throws IOException, ServletException {
+      throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;
 
     final String authorizationHeader = req.getHeader(HttpHeaders.AUTHORIZATION);
-
     final String requestUri = req.getRequestURI();
 
-    if (requestUri.startsWith("/api/auth/join") || requestUri.startsWith("/api/auth/login") || requestUri.startsWith("/swagger-ui") || requestUri.startsWith("/v3/api-docs") || requestUri.startsWith("/swagger-resources")) {
+    // 인증 필요 없는 URI는 통과
+    if (requestUri.startsWith("/api/auth/join") || requestUri.startsWith("/api/auth/login") ||
+        requestUri.startsWith("/swagger-ui") || requestUri.startsWith("/v3/api-docs") ||
+        requestUri.startsWith("/swagger-resources")) {
       chain.doFilter(request, response);
       return;
     }
@@ -39,14 +39,21 @@ public class AuthenticationFilter implements Filter {
       throw new IllegalArgumentException("접근 토큰이 없습니다.");
     }
 
-    if (jwtProvider.isTokenExpired(authorizationHeader)) {
+    // Bearer 제거
+    final String token = resolveToken(authorizationHeader);
+
+    if (jwtProvider.isTokenExpired(token)) {
       throw new IllegalArgumentException("토큰이 만료되었습니다.");
     }
 
-    final Role role = jwtProvider.getUserRole(authorizationHeader);
-
-    req.setAttribute("role", role);
-
     chain.doFilter(request, response);
+  }
+
+  private String resolveToken(String authorizationHeader) {
+    if (authorizationHeader != null) {
+      // "Bearer" 접두사와 그 뒤의 공백 제거
+      return authorizationHeader.replaceFirst("(?i)^Bearer\\s+", "").trim();
+    }
+    return null;
   }
 }
