@@ -33,7 +33,11 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
 
     final HttpServletRequest httpServletRequest = webRequest.getNativeRequest(HttpServletRequest.class);
 
-    final String token = Objects.requireNonNull(httpServletRequest).getHeader(HttpHeaders.AUTHORIZATION);
+    final String token = Objects.requireNonNull(httpServletRequest).getHeader(HttpHeaders.AUTHORIZATION).replaceFirst("(?i)^Bearer\\s+", "").trim();
+
+    log.debug("token: {}", token);
+    
+
     return jwtProvider.getPayload(token);
   }
 }

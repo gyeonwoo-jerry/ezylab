@@ -42,6 +42,7 @@ public class JwtProvider {
   }
 
   public Jws<Claims> getClaims(final String token) {
+    log.debug("Authorization header: '{}'", token);
     try {
       if (token == null || token.trim().isEmpty()) {
         throw new IllegalArgumentException("토큰이 비어있습니다.");
@@ -52,7 +53,7 @@ public class JwtProvider {
           .build()
           .parseClaimsJws(token.trim());  // 토큰 앞뒤 공백 제거
     } catch (Exception e) {
-      log.error("JWT parsing error: {}", e.getMessage());
+      log.error("JWT parsing error: {}{}", e.getMessage(), token);
       throw new IllegalArgumentException("토큰 파싱 오류: " + e.getMessage(), e);
     }
   }
@@ -75,7 +76,7 @@ public class JwtProvider {
         log.debug("Token has invalid format: '{}'", token);
         return true;
       }
-
+      
       Jws<Claims> claimsJws = Jwts.parserBuilder()
           .setSigningKey(secretKey)
           .build()
