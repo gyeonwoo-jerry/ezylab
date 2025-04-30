@@ -1,6 +1,6 @@
 spring:
   application:
-    name: ezylab
+    name: easylab
   profiles:
     include: dev
 
