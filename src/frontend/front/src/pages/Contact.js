@@ -52,7 +52,18 @@ const Contact = () => {
 
   return (
       <div className="contact-page">
+        <div className="inner">
+        <div className="video-background">
+          <iframe
+            src="https://www.youtube.com/embed/yPtnPlQT0MM?autoplay=1&mute=1&loop=1&playlist=yPtnPlQT0MM&controls=0&showinfo=0"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title="배경 비디오"
+          ></iframe>
+        </div>
         <div className="contact-form">
+          
           <h1>Contact Us</h1>
 
           {submitted ? (
@@ -93,6 +104,7 @@ const Contact = () => {
           )}
         </div>
       </div>
+    </div>
   );
 };
 
