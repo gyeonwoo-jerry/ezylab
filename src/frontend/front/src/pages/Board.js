@@ -35,7 +35,6 @@ function Board() {
 
   return (
       <div className="board-container">
-        <h1 className="board-title">게시판</h1>
 
         <ul className="board-list">
           {boards.length > 0 ? (
