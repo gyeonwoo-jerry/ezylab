@@ -71,8 +71,12 @@ public class AuthService {
       throw new IllegalArgumentException("아이디나 비밀번호를 정확하게 입력해주세요.");
     }
 
-    String token = jwtProvider.createToken(user.getId());
+    JwtProvider.TokenInfo tokenInfo = jwtProvider.createTokens(user.getId());
 
-    return new LoginResponse(token, user.getName());
+    return new LoginResponse(
+        tokenInfo.getAccessToken(),
+        tokenInfo.getRefreshToken(),
+        user.getName()
+    );
   }
 }

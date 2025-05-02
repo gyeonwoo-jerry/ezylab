@@ -76,7 +76,7 @@ public class JwtProvider {
         log.debug("Token has invalid format: '{}'", token);
         return true;
       }
-      
+
       Jws<Claims> claimsJws = Jwts.parserBuilder()
           .setSigningKey(secretKey)
           .build()

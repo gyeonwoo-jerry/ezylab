@@ -36,7 +36,7 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
     final String token = Objects.requireNonNull(httpServletRequest).getHeader(HttpHeaders.AUTHORIZATION).replaceFirst("(?i)^Bearer\\s+", "").trim();
 
     log.debug("token: {}", token);
-    
+
 
     return jwtProvider.getPayload(token);
   }

@@ -63,7 +63,7 @@ public class BoardController {
   @PutMapping("/board/{boardId}")
   public ApiResponse<Void> updateBoard (
       @PathVariable Long boardId,
-      @RequestBody BoardUpdateDto update,
+      @RequestPart("update") BoardUpdateDto update,
       @AuthenticationUserId Long userId,
       @RequestPart(value = "images", required = false) List<MultipartFile> images,
       @RequestPart(value = "attachments", required = false) List<MultipartFile> attachments
