@@ -28,7 +28,9 @@ public class AuthenticationFilter implements Filter {
     final String requestUri = req.getRequestURI();
 
     // 인증 필요 없는 URI는 통과
-    if (requestUri.startsWith("/api/auth/join") ||
+    if (
+        requestUri.equals("/") ||
+        requestUri.startsWith("/api/auth/join") ||
         requestUri.startsWith("/api/auth/login") ||
         requestUri.startsWith("/swagger-ui") ||
         requestUri.startsWith("/v3/api-docs") ||
