@@ -25,31 +25,6 @@ public class AuthenticationFilter implements Filter {
     HttpServletRequest req = (HttpServletRequest) request;
 
     final String authorizationHeader = req.getHeader(HttpHeaders.AUTHORIZATION);
-    final String requestUri = req.getRequestURI();
-
-    // 인증 필요 없는 URI는 통과
-    if (
-        requestUri.equals("/") ||
-        requestUri.startsWith("/static") ||
-        requestUri.startsWith("/images") ||
-        requestUri.equals("/asset-manifest.json") ||
-        requestUri.equals("/favicon.ico") ||
-        requestUri.equals("/manifest.json") ||
-        requestUri.equals("/logo192.png") ||
-        requestUri.equals("/logo512.png") ||
-        requestUri.equals("/robots.txt") ||
-        requestUri.startsWith("/api/auth/join") ||
-        requestUri.startsWith("/api/auth/login") ||
-        requestUri.startsWith("/swagger-ui") ||
-        requestUri.startsWith("/v3/api-docs") ||
-        requestUri.startsWith("/swagger-resources") ||
-        requestUri.startsWith("/boards") ||
-        requestUri.startsWith("/board") ||
-        requestUri.startsWith("/portfolios") ||
-        requestUri.startsWith("/portfolio")) {
-      chain.doFilter(request, response);
-      return;
-    }
 
     if (Objects.isNull(authorizationHeader)) {
       throw new IllegalArgumentException("접근 토큰이 없습니다.");
