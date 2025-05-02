@@ -23,9 +23,13 @@ public class AuthenticationFilter implements Filter {
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;
-
+    String uri = req.getRequestURI();
     final String authorizationHeader = req.getHeader(HttpHeaders.AUTHORIZATION);
-
+    // /api 경로만 필터 적용
+    if (!uri.startsWith("/api")) {
+      chain.doFilter(request, response);
+      return;
+    }
     if (Objects.isNull(authorizationHeader)) {
       throw new IllegalArgumentException("접근 토큰이 없습니다.");
     }
