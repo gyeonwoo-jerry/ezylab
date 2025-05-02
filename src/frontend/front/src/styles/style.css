@@ -1,8 +1,9 @@
 :root {
-  --gray--color: #e9e9e9;
+  --gray--color: #b8b8b8;
   --black--color: #25252a;
   --white--color: #fff;
   --mint--color: #00ff90;
+  --red--color: #ff2929;
 }
 
 /* Reset, 기본 스타일 */

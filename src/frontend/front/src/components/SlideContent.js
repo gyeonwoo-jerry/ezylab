@@ -9,23 +9,12 @@ const SlideContent = ({ slideNum }) => {
             <div className="inner">
               <div className="content">
                 <div className="word">
-                  당신의<br /><span className="mint">아이디어를</span><br />현실로 만들어드립니다.
+                  당신의 <span className="mint">아이디어</span>를<br /><span className="mint">현실</span>로 만들어드립니다.
                 </div>
                 <div className="img_group">
-                  <div className="topimg">
-                    <img
-                        src="/images/sec_01_img_01.png"
-                        srcSet="/images/sec_01_img_01@2x.png 2x, /images/sec_01_img_01@3x.png 3x"
-                        alt="이미지 1"
-                    />
-                  </div>
-                  <div className="botimg">
-                    <img
-                        src="/images/sec_01_img_02.png"
-                        srcSet="/images/sec_01_img_02@2x.png 2x, /images/sec_01_img_02@3x.png 3x"
-                        alt="이미지 2"
-                    />
-                  </div>
+                    <video className="video_01" autoplay loop muted playsinline>
+                      <source src="/images/main_sec_01.mp4" type="video/mp4"></source>
+                    </video>
                 </div>
               </div>
             </div>

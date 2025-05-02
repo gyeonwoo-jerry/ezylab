@@ -13,7 +13,7 @@ header .inner {
   justify-content: space-between;
   align-items: center;
   height: 100%;
-  padding: 0 20px; /* 좌우 여백 */
+  padding: 0 40px; /* 좌우 여백 */
 }
 
 header .inner .logo img {
@@ -79,19 +79,20 @@ header .menu ul li a:active {
 
 /* 로그인 버튼 스타일 */
 header .login button {
-  padding: 6px 14px 7px;
+  padding: 9px 18px 11px;
   border-radius: 20px;
-  border: 1px solid var(--gray--color);
   font-size: 14px;
   font-weight: 700;
-  color: var(--gray--color);
-  background: transparent;
+  border: 1px solid var(--black--color);
   cursor: pointer;
   transition: 0.2s;
-}
-
-header .login button:hover {
   color: var(--white--color);
   border-color: var(--black--color); 
   background-color: var(--black--color);
+}
+
+header .login button:hover {
+  color: var(--black--color);
+  border: 1px solid var(--mint--color);
+  background: var(--mint--color);
 }

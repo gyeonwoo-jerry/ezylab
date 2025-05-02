@@ -12,7 +12,7 @@ const LoginModal = ({ closeModal }) => {
   return (
       <div className="modal_overlay" onClick={handleOverlayClick}>
         <div className="modal_content" onClick={(e) => e.stopPropagation()}>
-          <h2>LogIn</h2>
+          <div className="title">관리자 로그인</div> 
           <input type="text" placeholder="아이디 입력" />
           <input type="password" placeholder="비밀번호 입력" />
           <button>LogIn</button>

@@ -2,20 +2,39 @@
 
 .inner {
   width: 100%;
-  max-width: 1400px;
+  max-width: 100%;
   margin: 0 auto;
 }
+.swiper-wrapper {
+  background-color: var(--white--color);
+}
 
-.sec_01 .img_group,
 .sec_02 .img_group {
-  margin-top: 80px;
+  margin-top: 44px;
 }
 
 .sec_01 .img_group .topimg {
   width: 200px;
   margin: 0 auto;
 }
+.sec_01 .img_group .video_01 {
+  width: 800px;
+  height: auto;
+  opacity: 1;
+  margin: 0 auto;
+  animation: fadeIn 1s ease-in-out;
+}
 
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes fadeout {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 0; }
+}
 .sec_01 .img_group .botimg {
   width: 267px;
   margin: 0 auto;
@@ -71,10 +90,11 @@
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  background: #fff;
+  background: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: background-color 0.3s ease;
 }
 
 .swiper-slide img {
