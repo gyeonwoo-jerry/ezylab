@@ -28,9 +28,15 @@ public class AuthenticationFilter implements Filter {
     final String requestUri = req.getRequestURI();
 
     // 인증 필요 없는 URI는 통과
-    if (requestUri.startsWith("/api/auth/join") || requestUri.startsWith("/api/auth/login") ||
-        requestUri.startsWith("/swagger-ui") || requestUri.startsWith("/v3/api-docs") ||
-        requestUri.startsWith("/swagger-resources")) {
+    if (requestUri.startsWith("/api/auth/join") ||
+        requestUri.startsWith("/api/auth/login") ||
+        requestUri.startsWith("/swagger-ui") ||
+        requestUri.startsWith("/v3/api-docs") ||
+        requestUri.startsWith("/swagger-resources") ||
+        requestUri.startsWith("/boards") ||
+        requestUri.startsWith("/board") ||
+        requestUri.startsWith("/portfolios") ||
+        requestUri.startsWith("/portfolio")) {
       chain.doFilter(request, response);
       return;
     }
