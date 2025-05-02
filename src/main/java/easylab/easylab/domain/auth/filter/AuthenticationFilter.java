@@ -23,19 +23,29 @@ public class AuthenticationFilter implements Filter {
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;
-    String uri = req.getRequestURI();
+    final String requestUri = req.getRequestURI();
     final String authorizationHeader = req.getHeader(HttpHeaders.AUTHORIZATION);
-    // JWT 없이 접근 가능한 경로 예외 처리
+    // 인증 필요 없는 URI는 통과
     if (
-      uri.startsWith("/api/boards") ||
-      uri.startsWith("/api/portfolios") ||
-      uri.startsWith("/api/auth")
+        requestUri.equals("/") ||
+        requestUri.startsWith("/static") ||
+        requestUri.startsWith("/images") ||
+        requestUri.equals("/asset-manifest.json") ||
+        requestUri.equals("/favicon.ico") ||
+        requestUri.equals("/manifest.json") ||
+        requestUri.equals("/logo192.png") ||
+        requestUri.equals("/logo512.png") ||
+        requestUri.equals("/robots.txt") ||
+        requestUri.startsWith("/api/auth/join") ||
+        requestUri.startsWith("/api/auth/login") ||
+        requestUri.startsWith("/swagger-ui") ||
+        requestUri.startsWith("/v3/api-docs") ||
+        requestUri.startsWith("/swagger-resources") ||
+        requestUri.startsWith("/boards") ||
+        requestUri.startsWith("/board") ||
+        requestUri.startsWith("/portfolios") ||
+        requestUri.startsWith("/portfolio")
     ) {
-      chain.doFilter(request, response);
-      return;
-    }
-    
-    if (!uri.startsWith("/api")) {
       chain.doFilter(request, response);
       return;
     }
