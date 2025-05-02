@@ -80,3 +80,79 @@ tasks.withType(JavaCompile).configureEach {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+
+def frontendDir = "$projectDir/src/main/frontend/front"
+
+sourceSets {
+    main {
+        resources { srcDirs = ["$projectDir/src/main/resources"]
+        }
+    }
+}
+
+processResources { dependsOn "copyReactBuildFiles" }
+
+task installReact(type: Exec) {
+    // 로컬 환경인지 확인하는 조건 (기본 로직: 'local' 프로필이면 스킵)
+    def isLocalEnvironment = System.getProperty("spring.profiles.active", "local") == "local"
+
+    // 로컬 환경이면 작업 건너뛰기
+   onlyIf { !isLocalEnvironment }
+
+    workingDir "$frontendDir"
+    inputs.dir "$frontendDir"
+    group = BasePlugin.BUILD_GROUP
+    if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+        commandLine "npm.cmd", "audit", "fix"
+        commandLine 'npm.cmd', 'install'
+    } else {
+        commandLine "npm", "audit", "fix"
+        commandLine 'npm', 'install'
+    }
+}
+
+task buildReact(type: Exec) {
+    dependsOn "installReact"
+
+    // 로컬 환경인지 확인하는 조건
+    def isLocalEnvironment = System.getProperty("spring.profiles.active", "local") == "local"
+
+    // 로컬 환경이면 작업 건너뛰기
+    onlyIf { !isLocalEnvironment }
+
+    workingDir "$frontendDir"
+    inputs.dir "$frontendDir"
+    group = BasePlugin.BUILD_GROUP
+    def profile = System.getProperty("spring.profiles.active", "dev")
+
+    if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+        if (profile == "prod") {
+            commandLine "cmd", "/c", "set NODE_ENV=production && set REACT_APP_SPRING_PROFILE=prod && npm run build:prod"
+        } else {
+            commandLine "cmd", "/c", "set NODE_ENV=development && set REACT_APP_SPRING_PROFILE=dev && npm run build:dev"
+        }
+    } else {
+        if (profile == "prod") {
+            commandLine "sh", "-c", "NODE_ENV=production REACT_APP_SPRING_PROFILE=prod npm run build:prod"
+        } else {
+            commandLine "sh", "-c", "NODE_ENV=development REACT_APP_SPRING_PROFILE=dev npm run build:dev"
+        }
+    }
+
+    standardOutput = System.out
+    errorOutput = System.err
+}
+
+task copyReactBuildFiles(type: Copy) {
+    dependsOn "buildReact"
+
+    // 로컬 환경인지 확인하는 조건
+    def isLocalEnvironment = System.getProperty("spring.profiles.active", "local") == "local"
+
+    // 로컬 환경이면 작업 건너뛰기
+    onlyIf { !isLocalEnvironment }
+
+    from "$frontendDir/build"
+    into "$projectDir/src/main/resources/static"
+}
