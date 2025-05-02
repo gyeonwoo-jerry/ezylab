@@ -25,11 +25,12 @@ public class AuthenticationFilter implements Filter {
     HttpServletRequest req = (HttpServletRequest) request;
     String uri = req.getRequestURI();
     final String authorizationHeader = req.getHeader(HttpHeaders.AUTHORIZATION);
-    // /api 경로만 필터 적용
-    if (!uri.startsWith("/api")) {
+    // JWT 없이 접근 가능한 경로 예외 처리
+    if (uri.startsWith("/api/boards") || uri.startsWith("/api/portfolios") || uri.startsWith("/api/auth")) {
       chain.doFilter(request, response);
       return;
     }
+
     if (Objects.isNull(authorizationHeader)) {
       throw new IllegalArgumentException("접근 토큰이 없습니다.");
     }

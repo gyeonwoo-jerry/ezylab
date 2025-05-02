@@ -23,8 +23,7 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/", "/index.html", "/static/**", "/favicon.ico",
                     "/manifest.json", "/logo*.png", "/robots.txt",
-                    "/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**",
-                    "/api/boards/**", "/api/portfolios/**"
+                    "/swagger-ui/**", "/v3/api-docs/**"
                 ).permitAll()
                 .anyRequest().authenticated()
             )
