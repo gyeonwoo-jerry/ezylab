@@ -55,7 +55,9 @@ public class AuthenticationFilter implements Filter {
     return uri.startsWith("/api/auth/login")
         || uri.startsWith("/api/auth/join")
         || uri.startsWith("/api/boards")
-        || uri.startsWith("/api/portfolios");
+        || uri.startsWith("/api/portfolios")
+        || uri.startsWith("/api/portfolio")
+        || uri.startsWith("/api/board");
   }
 
   private String resolveToken(String authorizationHeader) {

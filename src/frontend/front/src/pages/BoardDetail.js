@@ -12,7 +12,7 @@ function BoardDetail() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`/api/boards/${id}`)
+    fetch(`http://211.110.44.79:48080/api/boards/${id}`)
     .then(res => {
       if (!res.ok) throw new Error('게시글을 불러오는데 실패했습니다.');
       return res.json();
