@@ -10,16 +10,17 @@ function Board() {
   const [page, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const navigate = useNavigate();
-  const { user } = useAuth(); // 로그인 여부 확인
+  const { user } = useAuth();
 
   const fetchBoards = (page, searchTerm = '', searchType = 'TITLE') => {
-    fetch(`/api/boards?page=${page}&size=10&search=${searchTerm}&searchType=${searchType}`)
+    fetch(`http://211.110.44.79:48080/api/boards?page=${page}&size=10&search=${searchTerm}&searchType=${searchType}`)
     .then(res => res.json())
     .then(data => {
-      setBoards(data.data.content);
-      setHasNextPage(!data.data.last);
+      console.log("응답 확인:", data);
+      setBoards(data.content.list);
+      setHasNextPage(data.content.page < data.content.totalPage);
     })
-    .catch(err => console.error(err));
+    .catch(err => console.error('Error fetching boards:', err));
   };
 
   useEffect(() => {
@@ -45,7 +46,7 @@ function Board() {
                       onClick={() => navigate(`/board/${board.id}`)}
                   >
                     <strong>{board.title}</strong>
-                    <span>by {board.username} | 조회수: {board.viewCount}</span>
+                    <span>by {board.author} | 조회수: {board.viewCount}</span>
                   </li>
               ))
           ) : (
@@ -89,7 +90,6 @@ function Board() {
             </button>
           </div>
 
-          {/* 로그인한 사용자에게만 글쓰기 버튼 표시 */}
           {user && (
               <div className="board-write-button">
                 <button onClick={() => navigate('/board/write')}>글쓰기</button>
