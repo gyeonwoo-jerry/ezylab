@@ -27,11 +27,15 @@ public class AuthenticationFilter implements Filter {
     final String authorizationHeader = req.getHeader(HttpHeaders.AUTHORIZATION);
     // JWT 없이 접근 가능한 경로 예외 처리
     if (
-      !uri.startsWith("/api") ||
       uri.startsWith("/api/boards") ||
-      uri.startsWith("/api/portfolios") || // 예: 다른 공개 경로 추가 가능
+      uri.startsWith("/api/portfolios") ||
       uri.startsWith("/api/auth")
     ) {
+      chain.doFilter(request, response);
+      return;
+    }
+    
+    if (!uri.startsWith("/api")) {
       chain.doFilter(request, response);
       return;
     }
