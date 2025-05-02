@@ -24,44 +24,38 @@ public class AuthenticationFilter implements Filter {
       throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;
     final String requestUri = req.getRequestURI();
-    final String authorizationHeader = req.getHeader(HttpHeaders.AUTHORIZATION);
-    // 인증 필요 없는 URI는 통과
-    if (
-        requestUri.equals("/") ||
-        requestUri.startsWith("/static") ||
-        requestUri.startsWith("/images") ||
-        requestUri.equals("/asset-manifest.json") ||
-        requestUri.equals("/favicon.ico") ||
-        requestUri.equals("/manifest.json") ||
-        requestUri.equals("/logo192.png") ||
-        requestUri.equals("/logo512.png") ||
-        requestUri.equals("/robots.txt") ||
-        requestUri.startsWith("/api/auth/join") ||
-        requestUri.startsWith("/api/auth/login") ||
-        requestUri.startsWith("/swagger-ui") ||
-        requestUri.startsWith("/v3/api-docs") ||
-        requestUri.startsWith("/swagger-resources") ||
-        requestUri.startsWith("/boards") ||
-        requestUri.startsWith("/board") ||
-        requestUri.startsWith("/portfolios") ||
-        requestUri.startsWith("/portfolio")
-    ) {
+
+    // /api 가 아닌 경로는 필터 적용 제외 (정적 리소스 등)
+    if (!requestUri.startsWith("/api")) {
       chain.doFilter(request, response);
       return;
     }
 
+    // JWT 없이 허용할 API 경로 (ex: 로그인, 회원가입, 공개 데이터)
+    if (isWhitelisted(requestUri)) {
+      chain.doFilter(request, response);
+      return;
+    }
+
+    // JWT 검사 대상
+    final String authorizationHeader = req.getHeader(HttpHeaders.AUTHORIZATION);
     if (Objects.isNull(authorizationHeader)) {
       throw new IllegalArgumentException("접근 토큰이 없습니다.");
     }
 
-    // Bearer 제거
     final String token = resolveToken(authorizationHeader);
-
     if (jwtProvider.isTokenExpired(token)) {
       throw new IllegalArgumentException("토큰이 만료되었습니다.");
     }
 
     chain.doFilter(request, response);
+  }
+
+  private boolean isWhitelisted(String uri) {
+    return uri.startsWith("/api/auth/login")
+        || uri.startsWith("/api/auth/join")
+        || uri.startsWith("/api/boards")
+        || uri.startsWith("/api/portfolios");
   }
 
   private String resolveToken(String authorizationHeader) {
