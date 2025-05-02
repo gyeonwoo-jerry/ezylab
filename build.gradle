@@ -82,7 +82,7 @@ tasks.named('test') {
 }
 
 
-def frontendDir = "$projectDir/src/main/frontend/front"
+def frontendDir = "$projectDir/src/frontend/front"
 
 sourceSets {
     main {
