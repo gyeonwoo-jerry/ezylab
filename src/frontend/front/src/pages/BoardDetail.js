@@ -12,27 +12,34 @@ function BoardDetail() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`http://211.110.44.79:48080/api/boards/${id}`)
+    console.log("📡 API 요청 시작");
+    fetch(`/api/board/${id}`, { credentials: 'include' })
     .then(res => {
       if (!res.ok) throw new Error('게시글을 불러오는데 실패했습니다.');
       return res.json();
     })
     .then(data => {
-      setPost(data.data);
+      console.log("✅ 응답:", data);
+      setPost(data.content);
       setLoading(false);
     })
     .catch(err => {
+      console.error("❌ 오류:", err.message);
       setError(err.message);
       setLoading(false);
     });
   }, [id]);
+
 
   const handleDelete = async () => {
     const confirm = window.confirm('정말로 삭제하시겠습니까?');
     if (!confirm) return;
 
     try {
-      const res = await fetch(`/api/boards/${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/board/${id}`, {
+        method: 'DELETE',
+        credentials: 'include' // ✅ 삭제 요청도 세션 유지 필요
+      });
       if (res.ok) {
         alert('게시글이 삭제되었습니다.');
         navigate('/board');
@@ -53,14 +60,14 @@ function BoardDetail() {
   if (error) return <div className="board-detail-error">{error}</div>;
   if (!post) return <div className="board-detail-error">게시글을 찾을 수 없습니다.</div>;
 
-  const isAuthor = user && user.username === post.username;
+  const isAuthor = user && user.username === post.author;
 
   return (
       <div className="board-detail-container">
         <div className="board-detail-header">
           <h1 className="board-detail-title">{post.title}</h1>
           <div className="board-detail-info">
-            <span className="author">작성자: {post.username}</span>
+            <span className="author">작성자: {post.author}</span>
             <span className="date">작성일: {new Date(post.createdAt).toLocaleDateString()}</span>
             <span className="views">조회수: {post.viewCount}</span>
           </div>
