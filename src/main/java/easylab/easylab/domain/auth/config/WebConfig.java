@@ -34,12 +34,13 @@ public class WebConfig implements WebMvcConfigurer {
         .addResolver(new PathResourceResolver());
 
     // React fallback (정적 파일 없을 때만 index.html 반환)
-    registry.addResourceHandler("/{[path:[^\\.]*}")  // . 없는 요청만 처리 (정적 자원 요청은 제외)
+    registry.addResourceHandler("/**")  // 모든 경로
         .addResourceLocations("classpath:/static/")
         .resourceChain(true)
         .addResolver(new PathResourceResolver() {
           @Override
           protected Resource getResource(String resourcePath, Resource location) throws IOException {
+            // 실제 자원이 없으면 index.html 반환
             return new ClassPathResource("/static/index.html");
           }
         });
