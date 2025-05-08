@@ -12,14 +12,15 @@ function BoardDetail() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log("📡 API 요청 시작");
+    console.log("📡 API 요청 시작", `/api/board/${id}`);
     fetch(`/api/board/${id}`, { credentials: 'include' })
     .then(res => {
+      console.log("🔍 응답 상태:", res.status);
       if (!res.ok) throw new Error('게시글을 불러오는데 실패했습니다.');
       return res.json();
     })
     .then(data => {
-      console.log("✅ 응답:", data);
+      console.log("✅ 응답 데이터:", data);
       setPost(data.content);
       setLoading(false);
     })
