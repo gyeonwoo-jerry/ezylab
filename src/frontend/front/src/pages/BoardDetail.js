@@ -10,34 +10,45 @@ function BoardDetail() {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const apiUrl = `http://211.110.44.79:48080/api/board/${id}`;
-    console.log("📡 API 요청 시작", apiUrl);
+    // 이미 데이터를 불러왔으면 중복 호출 방지
+    if (isLoaded) return;
 
-    fetch(apiUrl, {
-      credentials: 'include',
-      headers: {
-        'Accept': 'application/json'
-      },
-      mode: 'cors'
-    })
-    .then(res => {
-      console.log("🔍 응답 상태:", res.status);
-      return res.json();
-    })
-    .then(data => {
-      console.log("✅ 응답 데이터:", data);
-      setPost(data.content);
-      setLoading(false);
-    })
-    .catch(err => {
-      console.error("❌ 오류:", err.message);
-      setError("API 요청 실패: " + err.message);
-      setLoading(false);
-    });
-  }, [id]);
+    const fetchPostDetails = async () => {
+      const apiUrl = `http://211.110.44.79:48080/api/board/${id}`;
+      console.log("📡 API 요청 시작", apiUrl);
 
+      try {
+        const res = await fetch(apiUrl, {
+          credentials: 'include',
+          headers: {
+            'Accept': 'application/json'
+          },
+          mode: 'cors'
+        });
+
+        console.log("🔍 응답 상태:", res.status);
+
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const data = await res.json();
+        console.log("✅ 응답 데이터:", data);
+        setPost(data.content);
+        setIsLoaded(true);
+      } catch (err) {
+        console.error("❌ 오류:", err.message);
+        setError("API 요청 실패: " + err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPostDetails();
+  }, [id, isLoaded]);
 
   const handleDelete = async () => {
     const confirm = window.confirm('정말로 삭제하시겠습니까?');
@@ -47,7 +58,7 @@ function BoardDetail() {
       const res = await fetch(`http://211.110.44.79:48080/api/board/${id}`, {
         method: 'DELETE',
         credentials: 'include',
-        mode: 'cors'  // CORS 설정 추가
+        mode: 'cors'
       });
       if (res.ok) {
         alert('게시글이 삭제되었습니다.');
@@ -69,7 +80,11 @@ function BoardDetail() {
   if (error) return <div className="board-detail-error">{error}</div>;
   if (!post) return <div className="board-detail-error">게시글을 찾을 수 없습니다.</div>;
 
+  // 작성자 일치 여부 확인 (본인 게시글인지)
   const isAuthor = user && user.username === post.author;
+
+  // 로그인 여부 확인
+  const isLoggedIn = !!user;
 
   return (
       <div className="board-detail-container">
@@ -87,11 +102,26 @@ function BoardDetail() {
         <div className="board-detail-actions">
           <button className="back-button" onClick={() => navigate('/board')}>목록으로</button>
 
-          {isAuthor && (
-              <>
-                <button className="edit-button" onClick={handleEdit}>수정</button>
-                <button className="delete-button" onClick={handleDelete}>삭제</button>
-              </>
+          {/* 로그인한 사용자만 볼 수 있는 버튼들 */}
+          {isLoggedIn && (
+              <div className="logged-in-actions">
+                {/* 작성자만 수정/삭제 가능 */}
+                {isAuthor ? (
+                    <>
+                      <button className="edit-button" onClick={handleEdit}>수정</button>
+                      <button className="delete-button" onClick={handleDelete}>삭제</button>
+                    </>
+                ) : (
+                    <span className="action-message">작성자만 수정/삭제할 수 있습니다</span>
+                )}
+              </div>
+          )}
+
+          {/* 로그인하지 않은 사용자에게 메시지 표시 */}
+          {!isLoggedIn && (
+              <div className="guest-message">
+                <span>게시글 작성 및 관리는 로그인 후 이용 가능합니다</span>
+              </div>
           )}
         </div>
       </div>
