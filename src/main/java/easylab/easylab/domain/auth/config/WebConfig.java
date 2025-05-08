@@ -14,7 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
 
   @Override
   public void addCorsMappings(CorsRegistry registry) {
-    registry.addMapping("/api/**")
+    registry.addMapping("/**") // 모든 경로에 대해 CORS 허용
         .allowedOrigins("http://localhost:3000", "http://211.110.44.79:3000")
         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
         .allowedHeaders("*")
@@ -30,6 +30,17 @@ public class WebConfig implements WebMvcConfigurer {
         .resourceChain(true)
         .addResolver(new PathResourceResolver());
 
+    // API 요청은 컨트롤러로 전달
+    registry.addResourceHandler("/api/**")
+        .addResourceLocations("classpath:/static/")
+        .resourceChain(true)
+        .addResolver(new PathResourceResolver() {
+          @Override
+          protected Resource getResource(String resourcePath, Resource location) throws IOException {
+            return null; // API 요청은 항상 컨트롤러로 위임
+          }
+        });
+
     // React SPA fallback 처리
     registry.addResourceHandler("/**")
         .addResourceLocations("classpath:/static/")
@@ -37,14 +48,6 @@ public class WebConfig implements WebMvcConfigurer {
         .addResolver(new PathResourceResolver() {
           @Override
           protected Resource getResource(String resourcePath, Resource location) throws IOException {
-            // 다음 경로들은 SPA fallback 대상에서 제외
-            if (resourcePath.startsWith("api") ||
-                resourcePath.startsWith("uploads") ||
-                resourcePath.startsWith("board")) {
-              return null; // controller에게 위임
-            }
-
-            // 그 외 경로는 index.html fallback
             Resource requestedResource = location.createRelative(resourcePath);
             return requestedResource.exists() && requestedResource.isReadable()
                 ? requestedResource
