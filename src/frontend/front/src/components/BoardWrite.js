@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import API from '../utils/api'; // axios 인스턴스 import
 import '../styles/boardWrite.css';
 
 function BoardWrite() {
@@ -34,13 +34,12 @@ function BoardWrite() {
     attachments.forEach((file) => formData.append('attachments', file));
 
     try {
-      const response = await axios({
+      const response = await API({
         method: isEditMode ? 'put' : 'post',
-        url: isEditMode ? `/api/boards/${post.id}` : '/api/board',
+        url: isEditMode ? `/boards/${post.id}` : '/board',
         data: formData,
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`, // 필요한 경우
         },
       });
 

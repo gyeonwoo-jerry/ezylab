@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import API from '../utils/api'; // Axios 인스턴스 import
 import '../styles/board.css';
 
 function Board() {
@@ -12,15 +13,25 @@ function Board() {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const fetchBoards = (page, searchTerm = '', searchType = 'TITLE') => {
-    fetch(`http://211.110.44.79:48080/api/boards?page=${page}&size=10&search=${searchTerm}&searchType=${searchType}`)
-    .then(res => res.json())
-    .then(data => {
+  const fetchBoards = async (page, searchTerm = '', searchType = 'TITLE') => {
+    try {
+      const res = await API.get('/boards', {
+        params: {
+          page,
+          size: 10,
+          search: searchTerm,
+          searchType,
+        },
+      });
+
+      const data = res.data;
       console.log("응답 확인:", data);
+
       setBoards(data.content.list);
       setHasNextPage(data.content.page < data.content.totalPage);
-    })
-    .catch(err => console.error('Error fetching boards:', err));
+    } catch (err) {
+      console.error('Error fetching boards:', err);
+    }
   };
 
   useEffect(() => {
@@ -35,10 +46,9 @@ function Board() {
 
   return (
       <div className="board-container">
-
         <ul className="board-list">
           {boards.length > 0 ? (
-              boards.map(board => (
+              boards.map((board) => (
                   <li
                       key={board.id}
                       className="board-item"
@@ -74,17 +84,11 @@ function Board() {
           </form>
 
           <div className="board-pagination">
-            <button
-                disabled={page === 1}
-                onClick={() => setPage(prev => prev - 1)}
-            >
+            <button disabled={page === 1} onClick={() => setPage((prev) => prev - 1)}>
               ◀ 이전
             </button>
             <span>{page} 페이지</span>
-            <button
-                disabled={!hasNextPage}
-                onClick={() => setPage(prev => prev + 1)}
-            >
+            <button disabled={!hasNextPage} onClick={() => setPage((prev) => prev + 1)}>
               다음 ▶
             </button>
           </div>

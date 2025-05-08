@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import API from '../utils/api'; // axios 인스턴스 가져오기
 import '../styles/boardDetail.css';
 
 function BoardDetail() {
@@ -16,27 +17,10 @@ function BoardDetail() {
     if (isLoaded) return;
 
     const fetchPostDetails = async () => {
-      const apiUrl = `http://211.110.44.79:48080/api/board/${id}`;
-      console.log("📡 API 요청 시작", apiUrl);
-
       try {
-        const res = await fetch(apiUrl, {
-          credentials: 'include',
-          headers: {
-            'Accept': 'application/json'
-          },
-          mode: 'cors'
-        });
-
-        console.log("🔍 응답 상태:", res.status);
-
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-
-        const data = await res.json();
-        console.log("✅ 응답 데이터:", data);
-        setPost(data.content);
+        const res = await API.get(`/board/${id}`);
+        console.log("✅ 응답 데이터:", res.data);
+        setPost(res.data.content);
         setIsLoaded(true);
       } catch (err) {
         console.error("❌ 오류:", err.message);
@@ -50,21 +34,13 @@ function BoardDetail() {
   }, [id, isLoaded]);
 
   const handleDelete = async () => {
-    const confirm = window.confirm('정말로 삭제하시겠습니까?');
-    if (!confirm) return;
+    const confirmDelete = window.confirm('정말로 삭제하시겠습니까?');
+    if (!confirmDelete) return;
 
     try {
-      const res = await fetch(`http://211.110.44.79:48080/api/board/${id}`, {
-        method: 'DELETE',
-        credentials: 'include',
-        mode: 'cors'
-      });
-      if (res.ok) {
-        alert('게시글이 삭제되었습니다.');
-        navigate('/board');
-      } else {
-        alert('삭제에 실패했습니다.');
-      }
+      await API.delete(`/board/${id}`);
+      alert('게시글이 삭제되었습니다.');
+      navigate('/board');
     } catch (err) {
       console.error('삭제 오류:', err);
       alert('삭제 중 오류가 발생했습니다.');
