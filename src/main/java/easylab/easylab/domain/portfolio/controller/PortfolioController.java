@@ -57,7 +57,7 @@ public class PortfolioController {
     return ApiResponse.success("포트폴리오 목록 조회 성공", portfolioList);
   }
 
-  @GetMapping("/portfolio")
+  @GetMapping("/portfolio/{portfolioId}")
   public ApiResponse<PortfolioResponseDto> getPortfolio (
       @PathVariable("portfolioId") Long portfolioId,
       HttpServletRequest request
