@@ -12,11 +12,18 @@ function BoardDetail() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log("📡 API 요청 시작", `/api/board/${id}`);
-    fetch(`/api/board/${id}`, { credentials: 'include' })
+    const apiUrl = `http://211.110.44.79:48080/api/board/${id}`;
+    console.log("📡 API 요청 시작", apiUrl);
+
+    fetch(apiUrl, {
+      credentials: 'include',
+      headers: {
+        'Accept': 'application/json'
+      },
+      mode: 'cors'
+    })
     .then(res => {
       console.log("🔍 응답 상태:", res.status);
-      if (!res.ok) throw new Error('게시글을 불러오는데 실패했습니다.');
       return res.json();
     })
     .then(data => {
@@ -26,7 +33,7 @@ function BoardDetail() {
     })
     .catch(err => {
       console.error("❌ 오류:", err.message);
-      setError(err.message);
+      setError("API 요청 실패: " + err.message);
       setLoading(false);
     });
   }, [id]);
@@ -37,9 +44,10 @@ function BoardDetail() {
     if (!confirm) return;
 
     try {
-      const res = await fetch(`/api/board/${id}`, {
+      const res = await fetch(`http://211.110.44.79:48080/api/board/${id}`, {
         method: 'DELETE',
-        credentials: 'include' // ✅ 삭제 요청도 세션 유지 필요
+        credentials: 'include',
+        mode: 'cors'  // CORS 설정 추가
       });
       if (res.ok) {
         alert('게시글이 삭제되었습니다.');

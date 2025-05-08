@@ -6,15 +6,20 @@ module.exports = function (app) {
       createProxyMiddleware({
         target: 'http://211.110.44.79:48080',
         changeOrigin: true,
-        pathRewrite: {
-          '^/api': '/api' // API 경로를 명확히 지정
+        secure: false,
+        logLevel: 'debug',
+        onProxyReq: (proxyReq, req, res) => {
+          console.log('프록시 요청:', req.method, req.url);
+        },
+        onProxyRes: (proxyRes, req, res) => {
+          console.log('프록시 응답:', proxyRes.statusCode, req.url);
         },
         onError: (err, req, res) => {
           console.error('프록시 오류:', err);
           res.writeHead(500, {
             'Content-Type': 'text/plain',
           });
-          res.end('프록시 서버 연결 오류');
+          res.end('프록시 서버 연결 오류: ' + err.message);
         }
       })
   );
