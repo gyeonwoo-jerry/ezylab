@@ -29,7 +29,7 @@ const PortfolioDetail = () => {
 
       try {
         setLoading(true);
-        const response = await axios.get(`/api/portfolio?portfolioId=${id}`);
+        const response = await axios.get(`/api/portfolio/${id}`);
 
         if (response.data.success) {
           setPortfolio(response.data.data);
@@ -49,7 +49,7 @@ const PortfolioDetail = () => {
 
   // 수정 페이지로 이동
   const handleEditClick = () => {
-    navigate(`/portfolio/edit/${id}`);
+    navigate(`/portfolio/${id}`);
   };
 
   // 삭제 확인 알럿 표시
