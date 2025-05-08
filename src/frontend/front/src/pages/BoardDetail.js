@@ -13,7 +13,6 @@ function BoardDetail() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // 이미 데이터를 불러왔으면 중복 호출 방지
     if (isLoaded) return;
 
     const fetchPostDetails = async () => {
@@ -80,10 +79,7 @@ function BoardDetail() {
   if (error) return <div className="board-detail-error">{error}</div>;
   if (!post) return <div className="board-detail-error">게시글을 찾을 수 없습니다.</div>;
 
-  // 작성자 일치 여부 확인 (본인 게시글인지)
   const isAuthor = user && user.username === post.author;
-
-  // 로그인 여부 확인
   const isLoggedIn = !!user;
 
   return (
@@ -99,13 +95,24 @@ function BoardDetail() {
 
         <div className="board-detail-content">{post.content}</div>
 
+        {post.images && post.images.length > 0 && (
+            <div className="board-detail-images">
+              {post.images.map((imagePath, index) => (
+                  <img
+                      key={index}
+                      src={`http://211.110.44.79:48080${imagePath}`}
+                      alt={`게시글 이미지 ${index + 1}`}
+                      className="board-detail-image"
+                  />
+              ))}
+            </div>
+        )}
+
         <div className="board-detail-actions">
           <button className="back-button" onClick={() => navigate('/board')}>목록으로</button>
 
-          {/* 로그인한 사용자만 볼 수 있는 버튼들 */}
           {isLoggedIn && (
               <div className="logged-in-actions">
-                {/* 작성자만 수정/삭제 가능 */}
                 {isAuthor ? (
                     <>
                       <button className="edit-button" onClick={handleEdit}>수정</button>
@@ -117,7 +124,6 @@ function BoardDetail() {
               </div>
           )}
 
-          {/* 로그인하지 않은 사용자에게 메시지 표시 */}
           {!isLoggedIn && (
               <div className="guest-message">
                 <span>게시글 작성 및 관리는 로그인 후 이용 가능합니다</span>
