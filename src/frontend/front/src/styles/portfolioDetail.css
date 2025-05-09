@@ -1,0 +1,146 @@
+.portfolio-detail {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.portfolio-header {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.portfolio-header h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.portfolio-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  font-size: 14px;
+  color: #666;
+}
+
+.portfolio-content {
+  min-height: 300px;
+  line-height: 1.6;
+  color: #333;
+  white-space: pre-wrap;
+  margin-bottom: 30px;
+}
+
+.portfolio-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-start;
+  margin-top: 20px;
+}
+
+.portfolio-image {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  display: block;
+}
+
+.portfolio-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  flex-wrap: wrap;
+}
+
+.edit-btn,
+.delete-btn,
+.portfolio-actions button {
+  padding: 8px 20px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border: none;
+}
+
+/* 수정 버튼 */
+.edit-btn {
+  background-color: #4f46e5;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #3730a3;
+}
+
+/* 삭제 버튼 */
+.delete-btn {
+  background-color: #e53e3e;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #c53030;
+}
+
+/* 목록 버튼 (기본 버튼 스타일만 적용됨) */
+.portfolio-actions button:not(.edit-btn):not(.delete-btn) {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  color: #333;
+}
+
+.portfolio-actions button:not(.edit-btn):not(.delete-btn):hover {
+  background-color: #e0e0e0;
+}
+
+/* 메시지 */
+.loading,
+.error,
+.not-found {
+  text-align: center;
+  padding: 50px 0;
+  font-size: 18px;
+  color: #666;
+}
+
+.error {
+  color: #d9534f;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .portfolio-detail {
+    padding: 15px;
+  }
+
+  .portfolio-header h1 {
+    font-size: 20px;
+  }
+
+  .portfolio-meta {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .portfolio-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .portfolio-image {
+    width: 100%;
+    height: auto;
+  }
+}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../styles/portfolioForm.css';
+import '../styles/portfolioDetail.css';
 
 const PortfolioWrite = () => {
   const { id } = useParams(); // id가 있으면 수정 모드, 없으면 생성 모드
