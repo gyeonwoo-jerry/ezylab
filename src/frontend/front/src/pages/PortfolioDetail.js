@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
 import API from '../utils/api'; // axios 인스턴스
-import '../styles/portfolio.css';
+import '../styles/portfolioDetail.css';
 
 function PortfolioDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
 
   const [portfolio, setPortfolio] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  // 로그인 정보 가져오기 (AuthContext 없이)
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  const isLoggedIn = !!userInfo;
+  const isAuthor = userInfo && userInfo.name === portfolio?.author;
 
   useEffect(() => {
     if (isLoaded) return;
@@ -54,9 +57,6 @@ function PortfolioDetail() {
   if (loading) return <div className="loading">로딩 중...</div>;
   if (error) return <div className="error">{error}</div>;
   if (!portfolio) return <div className="not-found">포트폴리오를 찾을 수 없습니다.</div>;
-
-  const isLoggedIn = !!user;
-  const isAuthor = user && user.username === portfolio.author;
 
   return (
       <div className="portfolio-detail">
@@ -102,7 +102,7 @@ function PortfolioDetail() {
 
           {!isLoggedIn && (
               <div className="guest-message">
-                <span>로그인 후 관리할 수 있습니다</span>
+                <span>게시글 작성 및 관리는 로그인 후 이용 가능합니다</span>
               </div>
           )}
         </div>
