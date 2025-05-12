@@ -42,3 +42,9 @@
   color: #25252a;
   border: 1px solid #25252a;
 }
+
+.subtext {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 1rem;
+}

@@ -3,15 +3,18 @@ package easylab.easylab.domain.auth.service;
 import easylab.easylab.domain.auth.config.PasswordEncoder;
 import easylab.easylab.domain.auth.dto.LoginRequest;
 import easylab.easylab.domain.auth.dto.LoginResponse;
+import easylab.easylab.domain.auth.dto.LogoutResponse;
 import easylab.easylab.domain.auth.dto.SingUpRequest;
 import easylab.easylab.domain.auth.jwt.JwtProvider;
 import easylab.easylab.domain.user.entity.User;
 import easylab.easylab.domain.user.repository.UserRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class AuthService {
 
@@ -78,5 +81,18 @@ public class AuthService {
         tokenInfo.getRefreshToken(),
         user.getName()
     );
+  }
+
+  public LogoutResponse logout(String accessToken) {
+    try {
+      Long userId = jwtProvider.getPayload(accessToken);
+
+      jwtProvider.logout(userId, accessToken);           // 로그아웃 처리 (ex. Redis 블랙리스트)
+
+      return new LogoutResponse(userId, "정상적으로 로그아웃되었습니다.");
+    } catch (Exception e) {
+      log.error("로그아웃 처리 중 오류 발생", e);
+      throw new IllegalArgumentException("로그아웃 처리 중 오류가 발생했습니다: " + e.getMessage());
+    }
   }
 }

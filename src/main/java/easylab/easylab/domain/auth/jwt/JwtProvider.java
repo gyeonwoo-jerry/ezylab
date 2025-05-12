@@ -29,6 +29,8 @@ public class JwtProvider {
   private static final long REFRESH_TOKEN_EXPIRE_TIME = 24 * 60 * 60 * 1000L;
   // Redis에서 리프레시 토큰 저장 시 사용할 접두사
   private static final String REFRESH_TOKEN_PREFIX = "refreshToken:";
+  // Redis에서 블랙리스트 저장 시 사용할 접두사
+  private static final String BLACKLIST_PREFIX = "blacklist:access:";
 
   @Getter
   @AllArgsConstructor
@@ -70,6 +72,11 @@ public class JwtProvider {
 
   // 토큰에서 사용자 ID 추출
   public Long getPayload(final String token) {
+    // 블랙리스트 확인 추가
+    if (isTokenBlacklisted(token)) {
+      throw new IllegalArgumentException("이미 로그아웃된 토큰입니다.");
+    }
+
        String subject = getClaims(token)
         .getBody()
         .getSubject();
@@ -78,6 +85,11 @@ public class JwtProvider {
 
   // 토큰의 Claims 가져오기
   public Jws<Claims> getClaims(final String token) {
+    // 블랙리스트 확인 추가
+    if (isTokenBlacklisted(token)) {
+      throw new IllegalArgumentException("이미 로그아웃된 토큰입니다.");
+    }
+
    try {
       return Jwts.parserBuilder()
           .setSigningKey(secretKey.getEncoded())
@@ -99,5 +111,42 @@ public class JwtProvider {
   // 토큰 만료 여부 확인
   public boolean isTokenExpired(final String token) {
     return parseToken(token).getExpiration().before(new Date());
+  }
+
+  // 사용자 로그아웃 - 리프레시 토큰 삭제
+  public void logout(Long userId, String accessToken) {
+    redisTemplate.delete(REFRESH_TOKEN_PREFIX + userId);
+
+    blacklistAccessToken(accessToken);
+
+    log.info("사용자 로그아웃 처리 완료. ID: {}", userId);
+  }
+
+  // 액세스 토큰을 블랙리스트에 추가하는 메서드
+  public void blacklistAccessToken(String accessToken) {
+    try {
+      Claims claims = parseToken(accessToken);
+      Date expiration = claims.getExpiration();
+      String userId = claims.getSubject();
+
+      // 현재 시간부터 토큰 만료 시간까지의 남은 시간(밀리초) 계산
+      long ttl = expiration.getTime() - System.currentTimeMillis();
+
+      // 만료 시간이 남아있는 경우에만 블랙리스트에 추가
+      if (ttl > 0) {
+        String blacklistKey = BLACKLIST_PREFIX + accessToken;
+        redisTemplate.opsForValue().set(blacklistKey, userId, ttl, TimeUnit.MILLISECONDS);
+        log.info("액세스 토큰이 블랙리스트에 추가되었습니다. 사용자 ID: {}", userId);
+      }
+    } catch (Exception e) {
+      log.error("블랙리스트 추가 중 오류 발생", e);
+    }
+  }
+
+  // 토큰이 블랙리스트에 있는지 검사하는 메서드
+  public boolean isTokenBlacklisted(String accessToken) {
+    String blacklistKey = BLACKLIST_PREFIX + accessToken;
+    Boolean exists = redisTemplate.hasKey(blacklistKey);
+    return Boolean.TRUE.equals(exists);
   }
 }

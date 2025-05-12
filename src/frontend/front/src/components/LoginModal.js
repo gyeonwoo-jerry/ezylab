@@ -15,26 +15,52 @@ const LoginModal = ({ closeModal }) => {
         password: password,
       });
 
-      if (res.data?.accessToken) {
-        localStorage.setItem('accessToken', res.data.accessToken);
+      const content = res.data?.content;
+
+      if (content?.accessToken) {
+        // 토큰 저장
+        localStorage.setItem('accessToken', content.accessToken);
+        localStorage.setItem('refreshToken', content.refreshToken);
+
+        // 사용자 정보 저장
+        const userInfo = {
+          id: content.id || '',
+          name: content.name || username,
+          email: content.email || '',
+        };
+        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+
+        alert('로그인 성공');
         closeModal();
       } else {
-        setError('로그인 실패: 토큰이 없습니다.');
+        setError('로그인 실패: 유효한 토큰이 없습니다.');
       }
     } catch (err) {
-      setError('로그인 실패: ' + (err.response?.data?.message || '서버 오류'));
+      const message = err.response?.data?.message || '아이디 또는 비밀번호가 잘못되었습니다.';
+      setError(`로그인 실패: ${message}`);
     }
   };
 
   return (
       <div className="modal_overlay" onClick={(e) => e.target === e.currentTarget && closeModal()}>
         <div className="modal_content" onClick={(e) => e.stopPropagation()}>
-          <div className="title">관리자 로그인</div>
-          <input type="text" placeholder="아이디 입력" value={username} onChange={(e) => setUsername(e.target.value)} />
-          <input type="password" placeholder="비밀번호 입력" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <div className="title">로그인</div>
+          <p className="subtext">이 페이지는 관리자 전용입니다.</p>
+          <input
+              type="text"
+              placeholder="아이디 입력"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+              type="password"
+              placeholder="비밀번호 입력"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+          />
           {error && <div className="error">{error}</div>}
-          <button onClick={handleLogin}>LogIn</button>
-          <button className="close_btn" onClick={closeModal}>Close</button>
+          <button onClick={handleLogin}>로그인</button>
+          <button className="close_btn" onClick={closeModal}>닫기</button>
         </div>
       </div>
   );
