@@ -1,14 +1,34 @@
 // Header.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import LoginModal from './LoginModal'; // 모달 컴포넌트 가져오기
+import LoginModal from './LoginModal';
 import '../styles/header.css';
 
 const Header = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // 로그인 상태 확인
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    setIsLoggedIn(!!token); // 토큰이 있으면 true
+  }, []);
 
   const openLoginModal = () => setIsLoginOpen(true);
   const closeLoginModal = () => setIsLoginOpen(false);
+
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true); // 로그인 성공 → 상태 변경
+    closeLoginModal();   // 모달 닫기
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('userInfo');
+    setIsLoggedIn(false); // 상태만 바꿔주기
+    alert('로그아웃되었습니다.');
+  };
 
   return (
       <header>
@@ -36,12 +56,21 @@ const Header = () => {
           </div>
 
           <div className="login">
-            <button onClick={openLoginModal}>LogIn</button>
+            {isLoggedIn ? (
+                <button onClick={handleLogout}>LogOut</button>
+            ) : (
+                <button onClick={openLoginModal}>LogIn</button>
+            )}
           </div>
         </div>
 
-        {/* 모달 분리된 컴포넌트 사용 */}
-        {isLoginOpen && <LoginModal closeModal={closeLoginModal} />}
+        {/* 로그인 모달 */}
+        {isLoginOpen && (
+            <LoginModal
+                closeModal={closeLoginModal}
+                onLogin={handleLoginSuccess}
+            />
+        )}
       </header>
   );
 };

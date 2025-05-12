@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
 import API from '../utils/api'; // Axios 인스턴스 import
 import '../styles/board.css';
 
@@ -10,8 +9,8 @@ function Board() {
   const [searchType, setSearchType] = useState('TITLE');
   const [page, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태
   const navigate = useNavigate();
-  const { user } = useAuth();
 
   const fetchBoards = async (page, searchTerm = '', searchType = 'TITLE') => {
     try {
@@ -25,8 +24,6 @@ function Board() {
       });
 
       const data = res.data;
-      console.log("응답 확인:", data);
-
       setBoards(data.content.list);
       setHasNextPage(data.content.page < data.content.totalPage);
     } catch (err) {
@@ -36,6 +33,8 @@ function Board() {
 
   useEffect(() => {
     fetchBoards(page, searchTerm, searchType);
+    const token = localStorage.getItem('accessToken');
+    setIsLoggedIn(!!token);
   }, [page, searchTerm, searchType]);
 
   const handleSearch = (e) => {
@@ -76,7 +75,7 @@ function Board() {
             </select>
             <input
                 type="text"
-                placeholder={searchType === "AUTHOR" ? "작성자로 검색" : "제목으로 검색"}
+                placeholder={searchType === 'AUTHOR' ? '작성자로 검색' : '제목으로 검색'}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -93,7 +92,7 @@ function Board() {
             </button>
           </div>
 
-          {user && (
+          {isLoggedIn && (
               <div className="board-write-button">
                 <button onClick={() => navigate('/board/write')}>글쓰기</button>
               </div>

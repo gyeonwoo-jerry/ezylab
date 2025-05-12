@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import API from '../utils/api';
 import '../styles/modal.css';
 
-const LoginModal = ({ closeModal }) => {
+const LoginModal = ({ closeModal, onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -31,6 +31,13 @@ const LoginModal = ({ closeModal }) => {
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
 
         alert('로그인 성공');
+
+        // 상위에서 전달된 콜백 호출 (로그인 상태 변경)
+        if (typeof onLogin === 'function') {
+          onLogin();
+        }
+
+        // 모달 닫기
         closeModal();
       } else {
         setError('로그인 실패: 유효한 토큰이 없습니다.');
@@ -42,7 +49,10 @@ const LoginModal = ({ closeModal }) => {
   };
 
   return (
-      <div className="modal_overlay" onClick={(e) => e.target === e.currentTarget && closeModal()}>
+      <div
+          className="modal_overlay"
+          onClick={(e) => e.target === e.currentTarget && closeModal()}
+      >
         <div className="modal_content" onClick={(e) => e.stopPropagation()}>
           <div className="title">로그인</div>
           <p className="subtext">이 페이지는 관리자 전용입니다.</p>

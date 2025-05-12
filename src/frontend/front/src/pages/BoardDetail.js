@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import API from '../utils/api'; // axios 인스턴스 가져오기
+import API from '../utils/api';
 import '../styles/boardDetail.css';
 
 function BoardDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  // 로그인 정보 가져오기 (AuthContext 없이)
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  const isLoggedIn = !!userInfo;
+  const isAuthor = userInfo && userInfo.name === post?.author;
 
   useEffect(() => {
     if (isLoaded) return;
@@ -19,7 +22,6 @@ function BoardDetail() {
     const fetchPostDetails = async () => {
       try {
         const res = await API.get(`/board/${id}`);
-        console.log("✅ 응답 데이터:", res.data);
         setPost(res.data.content);
         setIsLoaded(true);
       } catch (err) {
@@ -48,15 +50,12 @@ function BoardDetail() {
   };
 
   const handleEdit = () => {
-    navigate('/board/write', { state: { post } }); // 수정모드로 이동
+    navigate('/board/write', { state: { post } });
   };
 
   if (loading) return <div className="board-detail-loading">로딩 중...</div>;
   if (error) return <div className="board-detail-error">{error}</div>;
   if (!post) return <div className="board-detail-error">게시글을 찾을 수 없습니다.</div>;
-
-  const isAuthor = user && user.username === post.author;
-  const isLoggedIn = !!user;
 
   return (
       <div className="board-detail-container">
@@ -85,14 +84,14 @@ function BoardDetail() {
         )}
 
         <div className="board-detail-actions">
-          <button className="back-button" onClick={() => navigate('/board')}>목록으로</button>
+          <button className="board-button back" onClick={() => navigate('/board')}>목록으로</button>
 
           {isLoggedIn && (
               <div className="logged-in-actions">
                 {isAuthor ? (
                     <>
-                      <button className="edit-button" onClick={handleEdit}>수정</button>
-                      <button className="delete-button" onClick={handleDelete}>삭제</button>
+                      <button className="board-button edit" onClick={handleEdit}>수정</button>
+                      <button className="board-button delete" onClick={handleDelete}>삭제</button>
                     </>
                 ) : (
                     <span className="action-message">작성자만 수정/삭제할 수 있습니다</span>

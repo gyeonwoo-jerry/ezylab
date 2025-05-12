@@ -28,7 +28,9 @@ function BoardWrite() {
     const formData = new FormData();
     const request = { title, content };
     const blob = new Blob([JSON.stringify(request)], { type: 'application/json' });
-    formData.append('request', blob);
+
+    // ✅ 수정 모드일 경우 'update' 키로 전송
+    formData.append(isEditMode ? 'update' : 'request', blob);
 
     images.forEach((file) => formData.append('images', file));
     attachments.forEach((file) => formData.append('attachments', file));
@@ -36,7 +38,7 @@ function BoardWrite() {
     try {
       const response = await API({
         method: isEditMode ? 'put' : 'post',
-        url: isEditMode ? `/boards/${post.id}` : '/board',
+        url: isEditMode ? `/board/${post.id}` : '/board',
         data: formData,
         headers: {
           'Content-Type': 'multipart/form-data',
