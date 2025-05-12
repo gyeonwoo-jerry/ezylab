@@ -69,7 +69,7 @@ public class PortfolioController {
   @PutMapping("/portfolio/{portfolioId}")
   public ApiResponse<Void> updatePortfolio (
       @PathVariable Long portfolioId,
-      @RequestBody PortfolioUpdateDto update,
+      @RequestPart("update") PortfolioUpdateDto update,
       @AuthenticationUserId Long userId,
       @RequestPart(value = "images", required = false) List<MultipartFile> images
   ) {
