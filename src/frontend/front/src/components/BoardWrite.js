@@ -29,16 +29,24 @@ function BoardWrite() {
     const request = { title, content };
     const blob = new Blob([JSON.stringify(request)], { type: 'application/json' });
 
-    // ✅ 수정 모드일 경우 'update' 키로 전송
     formData.append(isEditMode ? 'update' : 'request', blob);
-
     images.forEach((file) => formData.append('images', file));
     attachments.forEach((file) => formData.append('attachments', file));
+
+    // 🔐 post.id 안전성 체크
+    let url = '/board';
+    if (isEditMode) {
+      if (!post || !post.id) {
+        alert('수정하려는 게시글 정보가 없습니다.');
+        return;
+      }
+      url = `/board/${post.id}`;
+    }
 
     try {
       const response = await API({
         method: isEditMode ? 'put' : 'post',
-        url: isEditMode ? `/board/${post.id}` : '/board',
+        url,
         data: formData,
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -47,7 +55,12 @@ function BoardWrite() {
 
       if (response.data.success) {
         alert(isEditMode ? '게시글이 수정되었습니다.' : '게시글이 등록되었습니다.');
-        navigate('/board');
+        const newId = response.data.content?.id;
+        if (newId) {
+          navigate(`/board/${newId}`);
+        } else {
+          navigate('/board'); // fallback
+        }
       } else {
         alert(response.data.message || '요청 처리에 실패했습니다.');
       }
@@ -56,6 +69,7 @@ function BoardWrite() {
       alert('오류가 발생했습니다.');
     }
   };
+
 
   return (
       <div className="board-write-container">
