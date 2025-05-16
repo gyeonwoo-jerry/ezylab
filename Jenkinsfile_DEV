@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SPRING_PROFILE = 'dev'  // 여기에 원하는 프로파일을 설정
+        SPRING_PROFILE = 'prod'  // 여기에 원하는 프로파일을 설정
     }
 
     stages {
