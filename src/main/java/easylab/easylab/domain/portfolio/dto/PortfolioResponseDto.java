@@ -1,14 +1,10 @@
 package easylab.easylab.domain.portfolio.dto;
 
-import easylab.easylab.domain.board.dto.BoardResponseDto;
-import easylab.easylab.domain.board.entity.Board;
-import easylab.easylab.domain.board.entity.BoardImage;
+import easylab.easylab.domain.common.response.ImageResponse;
 import easylab.easylab.domain.portfolio.entity.Portfolio;
-import easylab.easylab.domain.portfolio.entity.PortfolioImage;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Builder;
-import lombok.Getter;
 
 @Builder
 public record PortfolioResponseDto(
@@ -16,7 +12,7 @@ public record PortfolioResponseDto(
     String title,
     String content,
     String author,
-    List<String> images,
+    List<ImageResponse> images,
     Long viewCount,
     LocalDateTime createdAt,
     LocalDateTime modifiedAt
@@ -27,7 +23,9 @@ public record PortfolioResponseDto(
         .title(portfolio.getTitle())
         .content(portfolio.getContent())
         .author(portfolio.getUser().getName())
-        .images(portfolio.getImages().stream().map(PortfolioImage::getImagePath).toList())
+        .images(portfolio.getImages().stream()
+            .map(img -> new ImageResponse(img.getId(), img.getImagePath()))
+            .toList())
         .viewCount(portfolio.getViewCount())
         .createdAt(portfolio.getCreatedAt())
         .modifiedAt(portfolio.getModifiedAt())
