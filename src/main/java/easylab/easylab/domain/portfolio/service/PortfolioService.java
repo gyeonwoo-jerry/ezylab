@@ -72,7 +72,7 @@ public class PortfolioService {
     return PortfolioResponseDto.from(portfolio);
   }
 
-  public void updatePortfolio(Long portfolioId, PortfolioUpdateDto update, Long userId, List<MultipartFile> images) {
+  public void updatePortfolio(Long portfolioId, PortfolioUpdateDto update, Long userId, List<MultipartFile> images, List<Long> keepImageIds) {
     Portfolio portfolio = portfolioRepository.findById(portfolioId).orElseThrow(()-> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
 
     userRepository.findById(userId).orElseThrow(()-> new IllegalArgumentException("유저를 찾을 수 없습니다."));
@@ -83,7 +83,7 @@ public class PortfolioService {
 
     portfolio.updatePortfolio(update);
 
-    portfolioImageService.uploadImage(portfolio, images);
+    portfolioImageService.updateImages(portfolio, images, keepImageIds);
   }
 
   public void deletePortfolio(Long portfolioId, Long userId) {

@@ -65,15 +65,15 @@ public class PortfolioController {
     return ApiResponse.success("포트폴리오 조회 성공", portfolioService.getPortfolio(portfolioId, request));
   }
 
-
   @PutMapping("/portfolio/{portfolioId}")
   public ApiResponse<Void> updatePortfolio (
       @PathVariable Long portfolioId,
       @RequestPart("update") PortfolioUpdateDto update,
       @AuthenticationUserId Long userId,
-      @RequestPart(value = "images", required = false) List<MultipartFile> images
+      @RequestPart(value = "images", required = false) List<MultipartFile> images,
+      @RequestPart(value = "keepImageIds", required = false) List<Long> keepImageIds
   ) {
-    portfolioService.updatePortfolio(portfolioId, update, userId, images);
+    portfolioService.updatePortfolio(portfolioId, update, userId, images, keepImageIds);
     return ApiResponse.success("포트폴리오 수정 성공", null);
   }
 
