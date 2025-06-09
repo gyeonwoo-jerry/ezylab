@@ -70,7 +70,7 @@ public class BoardService {
     return BoardResponseDto.from(board);
   }
 
-  public void updateBoard(Long boardId, BoardUpdateDto update, Long userId, List<MultipartFile> images, List<MultipartFile> attachments, List<Long> keepImageIds) {
+  public void updateBoard(Long boardId, BoardUpdateDto update, Long userId, List<MultipartFile> images, List<MultipartFile> attachments, List<Long> keepImageIds, List<Long> keepAttachmentIds) {
     Board board = boardRepository.findById(boardId).orElseThrow(()-> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
 
     userRepository.findById(userId).orElseThrow(()-> new IllegalArgumentException("유저를 찾을 수 없습니다."));
@@ -82,7 +82,7 @@ public class BoardService {
     board.updateBoard(update);
 
     boardImageService.updateImages(board, images, keepImageIds);
-    boardAttachmentService.updateAttachments(board, attachments);
+    boardAttachmentService.updateAttachments(board, attachments, keepAttachmentIds);
   }
 
 

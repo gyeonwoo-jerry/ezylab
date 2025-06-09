@@ -67,9 +67,10 @@ public class BoardController {
       @AuthenticationUserId Long userId,
       @RequestPart(value = "images", required = false) List<MultipartFile> images,
       @RequestPart(value = "attachments", required = false) List<MultipartFile> attachments,
-      @RequestPart(value = "keepImageIds", required = false) List<Long> keepImageIds
+      @RequestPart(value = "keepImageIds", required = false) List<Long> keepImageIds,
+      @RequestPart(value = "keepAttachmentIds", required = false) List<Long> keepAttachmentIds
   ) {
-    boardService.updateBoard(boardId, update, userId, images, attachments, keepImageIds);
+    boardService.updateBoard(boardId, update, userId, images, attachments, keepImageIds, keepAttachmentIds);
     return ApiResponse.success("게시판 수정 성공", null);
   }
 

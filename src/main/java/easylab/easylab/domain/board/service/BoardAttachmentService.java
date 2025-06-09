@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -74,17 +75,24 @@ public class BoardAttachmentService {
     return filePath;
   }
 
-  public void updateAttachments(Board board, List<MultipartFile> newFiles) {
-    if (newFiles == null || newFiles.isEmpty()) return;
+  public void updateAttachments(Board board, List<MultipartFile> newFiles, List<Long> keepAttachmentIds) {
+    List<BoardAttachment> existingAttachments = attachmentRepository.findByBoardId(board.getId());
 
-    List<BoardAttachment> existing = attachmentRepository.findByBoardId(board.getId());
+    // 삭제 대상 선별: keepAttachmentIds에 없는 기존 첨부파일
+    List<BoardAttachment> toDelete = existingAttachments.stream()
+        .filter(attachment -> keepAttachmentIds == null || !keepAttachmentIds.contains(attachment.getId()))
+        .collect(Collectors.toList());
 
-    for (BoardAttachment file : existing) {
-      deletePhysicalFile(file.getFilePath(), file.getOriginalFileName());
-      attachmentRepository.delete(file);
+    // 선택된 첨부파일들 삭제
+    for (BoardAttachment attachment : toDelete) {
+      deletePhysicalFile(attachment.getFilePath(), attachment.getOriginalFileName());
+      attachmentRepository.delete(attachment);
     }
 
-    uploadAttachment(board, newFiles);
+    // 새 첨부파일 업로드
+    if (newFiles != null && !newFiles.isEmpty()) {
+      uploadAttachment(board, newFiles);
+    }
   }
 
   private void deletePhysicalFile(String dbDirPath, String originalFileName) {
