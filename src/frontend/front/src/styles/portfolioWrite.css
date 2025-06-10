@@ -1,163 +1,420 @@
 /* portfolioWrite.css */
 
-/* 포트폴리오 작성 폼 */
 .portfolio-form-container {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 35px;
-  border-radius: 12px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
   background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.portfolio-form-container h1 {
-  margin-bottom: 25px;
-  text-align: center;
+.portfolio-form-header h1 {
   color: #333;
-  font-size: 26px;
-  font-weight: 600;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #eaeaea;
+  margin-bottom: 30px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #007bff;
+  font-size: 24px;
 }
 
 .portfolio-form {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 20px;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
+  gap: 8px;
 }
 
 .form-group label {
-  margin-bottom: 10px;
-  font-size: 16px;
-  font-weight: 500;
-  color: #444;
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
 }
 
 .form-group input[type="text"],
+.form-group input[type="url"],
 .form-group textarea {
-  padding: 14px;
+  padding: 12px;
   border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 16px;
-  transition: all 0.3s;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
 }
 
 .form-group input[type="text"]:focus,
+.form-group input[type="url"]:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #4d90fe;
-  box-shadow: 0 0 5px rgba(77, 144, 254, 0.3);
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.form-group input[type="text"]:disabled,
+.form-group input[type="url"]:disabled,
+.form-group textarea:disabled {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  cursor: not-allowed;
 }
 
 .form-group textarea {
-  min-height: 220px;
   resize: vertical;
+  min-height: 200px;
+  font-family: inherit;
+  line-height: 1.5;
 }
 
 .form-group input[type="file"] {
-  padding: 10px 0;
-  font-size: 15px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
 }
 
-.help-text {
-  margin-top: 8px;
+.form-group input[type="file"]:disabled {
+  background-color: #f8f9fa;
+  cursor: not-allowed;
+}
+
+.form-help {
+  font-size: 12px;
+  color: #6c757d;
+  margin-top: 4px;
+  font-style: italic;
+}
+
+/* 기존 파일 컨테이너 */
+.existing-files-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 10px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.existing-file-item {
+  position: relative;
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 10px;
+  border: 1px solid #dee2e6;
+  transition: all 0.3s ease;
+}
+
+.existing-file-item.marked-for-deletion {
+  opacity: 0.5;
+  background-color: #fff5f5;
+  border-color: #fecaca;
+}
+
+.existing-file-item.marked-for-deletion::before {
+  content: "삭제 예정";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background-color: #dc3545;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  z-index: 2;
+}
+
+.image-preview {
+  width: 100%;
+  height: 120px;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-error {
+  color: #6c757d;
+  font-size: 12px;
+  text-align: center;
+}
+
+/* 새 파일 컨테이너 */
+.new-files-container {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #e8f4f8;
+  border-radius: 6px;
+  border: 1px solid #b8e6f0;
+}
+
+.new-files-container h4 {
+  margin: 0 0 15px 0;
+  color: #0c5460;
   font-size: 14px;
-  color: #888;
+  font-weight: 600;
 }
 
+.new-file-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  background-color: #fff;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  border: 1px solid #bee5eb;
+}
+
+.new-file-item:last-child {
+  margin-bottom: 0;
+}
+
+.new-file-item .image-preview {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  margin-bottom: 0;
+}
+
+.file-name {
+  flex: 1;
+  font-size: 14px;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-size {
+  font-size: 12px;
+  color: #6c757d;
+  flex-shrink: 0;
+}
+
+.btn-remove {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 12px;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease;
+}
+
+.btn-remove:hover {
+  background-color: #c82333;
+}
+
+.deletion-notice {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 4px;
+  color: #856404;
+  font-size: 12px;
+}
+
+/* 이미지 미리보기 컨테이너 (기존 PortfolioWrite와 호환) */
 .image-preview-container {
-  margin-top: 5px;
+  margin-top: 15px;
 }
 
 .image-preview-container h3 {
-  margin-bottom: 15px;
-  font-size: 18px;
-  color: #444;
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .image-preview-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 15px;
 }
 
 .image-preview-item {
   position: relative;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 10px;
+  border: 1px solid #dee2e6;
+  transition: all 0.3s ease;
 }
 
-.image-preview-item img {
+.image-preview-item .image-preview {
   width: 100%;
-  height: 120px;
-  object-fit: cover;
-  display: block;
+  height: 150px;
+  margin-bottom: 8px;
 }
 
+.image-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.image-name {
+  flex: 1;
+  font-size: 12px;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.remove-image-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 12px;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease;
+}
+
+.remove-image-btn:hover {
+  background-color: #c82333;
+}
+
+/* 폼 액션 버튼 */
 .form-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 15px;
-  margin-top: 10px;
+  gap: 12px;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e9ecef;
 }
 
-.form-actions button {
+.cancel-btn,
+.submit-btn {
   padding: 12px 24px;
-  border-radius: 6px;
   border: none;
-  font-size: 16px;
-  font-weight: 500;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
+  min-width: 80px;
 }
 
 .cancel-btn {
-  background-color: #f1f1f1;
-  color: #555;
-}
-
-.cancel-btn:hover {
-  background-color: #e5e5e5;
-}
-
-.submit-btn {
-  background-color: #4d90fe;
+  background-color: #6c757d;
   color: white;
 }
 
-.submit-btn:hover {
-  background-color: #357ae8;
+.cancel-btn:hover:not(:disabled) {
+  background-color: #5a6268;
 }
 
+.submit-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.cancel-btn:disabled,
 .submit-btn:disabled {
-  background-color: #a5c4ff;
+  background-color: #e9ecef;
+  color: #6c757d;
   cursor: not-allowed;
 }
 
-/* 반응형 디자인 - 작성 폼 전용 */
+/* 로딩 및 에러 상태 */
+.loading,
+.error {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.loading {
+  color: #6c757d;
+  font-size: 16px;
+}
+
+.error {
+  color: #dc3545;
+}
+
+.error h3 {
+  margin-bottom: 10px;
+  color: #dc3545;
+}
+
+.error p {
+  margin-bottom: 20px;
+  color: #6c757d;
+}
+
+/* 기존 PortfolioWrite와 호환성을 위한 추가 스타일 */
+.help-text {
+  font-size: 12px;
+  color: #6c757d;
+  margin-top: 4px;
+  font-style: italic;
+}
+
+/* 반응형 디자인 */
 @media (max-width: 768px) {
   .portfolio-form-container {
-    margin: 20px;
-    padding: 20px;
-    width: calc(100% - 40px);
+    margin: 10px;
+    padding: 15px;
+  }
+
+  .existing-files-container,
+  .image-preview-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
   }
 
   .form-actions {
     flex-direction: column;
-    gap: 10px;
   }
 
-  .form-actions button {
+  .cancel-btn,
+  .submit-btn {
     width: 100%;
   }
 
-  .image-preview-grid {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  .new-file-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .new-file-item .image-preview {
+    width: 100%;
+    height: 120px;
   }
 }

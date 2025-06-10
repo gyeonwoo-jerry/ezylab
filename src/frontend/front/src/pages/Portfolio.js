@@ -67,6 +67,39 @@ const Portfolio = () => {
     fetchPortfolios();
   }, [page, size]);
 
+  // 이미지 URL을 안전하게 생성하는 함수
+  const getImageUrl = (imageData) => {
+    console.log('🖼️ 이미지 데이터:', imageData, '타입:', typeof imageData);
+
+    if (!imageData) {
+      return '/images/default-portfolio.png';
+    }
+
+    // 이미지가 배열인 경우 첫 번째 이미지 사용
+    let imagePath = Array.isArray(imageData) ? imageData[0] : imageData;
+
+    if (!imagePath) {
+      return '/images/default-portfolio.png';
+    }
+
+    // imagePath를 문자열로 변환 (안전성 확보)
+    imagePath = String(imagePath);
+
+    console.log('📍 처리할 이미지 경로:', imagePath);
+
+    // 이미 전체 URL인 경우 (http로 시작하는 경우)
+    if (imagePath.startsWith('http')) {
+      return imagePath;
+    }
+
+    // 상대 경로인 경우 서버 URL과 결합
+    if (imagePath.startsWith('/')) {
+      return `http://211.110.44.79:48080${imagePath}`;
+    } else {
+      return `http://211.110.44.79:48080/${imagePath}`;
+    }
+  };
+
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) {
       setPage(newPage);
@@ -114,11 +147,30 @@ const Portfolio = () => {
               <div className="portfolio-grid">
                 {portfolioItems.map((item) => (
                     <Link to={`/portfolio/${item.id}`} key={item.id} className="portfolio-card">
-                      <img
-                          src={item.images?.[0] || '/images/default-portfolio.png'}
-                          alt={item.title}
-                      />
-                      <p>{item.title}</p>
+                      <div className="card-image">
+                        <img
+                            src={getImageUrl(item.images)}
+                            alt="포트폴리오 썸네일"
+                            loading="lazy"
+                            onLoad={(e) => {
+                              e.target.style.opacity = '1';
+                            }}
+                            onError={(e) => {
+                              console.warn(`이미지 로드 실패: ${e.target.src}`);
+                              e.target.src = '/images/default-portfolio.png';
+                            }}
+                            style={{
+                              opacity: '0',
+                              transition: 'opacity 0.3s ease'
+                            }}
+                        />
+                      </div>
+                      <div className="card-content">
+                        <h3 className="card-title">{item.title}</h3>
+                        {item.type && (
+                            <span className="card-type">{item.type}</span>
+                        )}
+                      </div>
                     </Link>
                 ))}
               </div>
@@ -154,6 +206,12 @@ const Portfolio = () => {
                 <p>페이지: {page} / {totalPages}</p>
                 <p>아이템 수: {portfolioItems.length}</p>
                 <p>로그인 상태: {isLoggedIn ? '로그인됨' : '로그인 안됨'}</p>
+                {portfolioItems.length > 0 && (
+                    <div>
+                      <h4>첫 번째 아이템 이미지 정보:</h4>
+                      <pre>{JSON.stringify(portfolioItems[0]?.images, null, 2)}</pre>
+                    </div>
+                )}
               </details>
             </div>
         )}

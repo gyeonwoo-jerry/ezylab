@@ -51,7 +51,9 @@ function PortfolioDetail() {
   };
 
   const handleEdit = () => {
-    navigate('/portfolio/write', { state: { portfolio } });
+    navigate(`/portfolio/edit/${id}`, {
+      state: { portfolio }
+    });
   };
 
   if (loading) return <div className="loading">로딩 중...</div>;
@@ -66,7 +68,26 @@ function PortfolioDetail() {
             <span>작성자: {portfolio.author}</span>
             <span>작성일: {new Date(portfolio.createdAt).toLocaleDateString()}</span>
             <span>조회수: {portfolio.viewCount}</span>
+            {/* 분류(타입) 표시 */}
+            {portfolio.type && (
+                <span>분류: {portfolio.type}</span>
+            )}
           </div>
+
+          {/* URL 링크 표시 */}
+          {portfolio.url && (
+              <div className="portfolio-url">
+                <span>🔗 관련 링크: </span>
+                <a
+                    href={portfolio.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="portfolio-link"
+                >
+                  {portfolio.url}
+                </a>
+              </div>
+          )}
         </div>
 
         <div className="portfolio-content">{portfolio.content}</div>

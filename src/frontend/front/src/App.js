@@ -14,6 +14,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import './styles/index.css';
 import './styles/style.css';
 import BoardEdit from "./pages/BoardEdit";
+import PortfolioEdit from "./pages/PortfolioEdit";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/portfolio/:id" element={<PortfolioDetail />} />
             <Route path="/portfolio/write" element={<PortfolioWrite />} />
+            <Route path="/portfolio/edit/:id" element={<PortfolioEdit />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
         </div>
