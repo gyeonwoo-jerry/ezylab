@@ -3,6 +3,7 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import Header from './components/Header';
+import Company from './pages/Company';
 import Portfolio from './pages/Portfolio';
 import PortfolioDetail from './pages/PortfolioDetail';
 import Board from './pages/Board';
@@ -15,27 +16,30 @@ import './styles/index.css';
 import './styles/style.css';
 import BoardEdit from "./pages/BoardEdit";
 import PortfolioEdit from "./pages/PortfolioEdit";
+import Services from "./pages/Services";
 
 function App() {
   return (
       <AuthProvider>
-      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        <div className="App" style={{ height: '100%' }}>
-          <Header />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/board" element={<Board />} />
-            <Route path="/board/:id" element={<BoardDetail />} />
-            <Route path="/board/write" element={<BoardWrite />} />
-            <Route path="/board/edit/:id" element={<BoardEdit />} />
-            <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/portfolio/:id" element={<PortfolioDetail />} />
-            <Route path="/portfolio/write" element={<PortfolioWrite />} />
-            <Route path="/portfolio/edit/:id" element={<PortfolioEdit />} />
-            <Route path="/contact" element={<Contact />} />
-          </Routes>
-        </div>
-      </Router>
+        <Router>
+          <div className="App" style={{ height: '100%' }}>
+            <Header />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/company" element={<Company />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/board" element={<Board />} />
+              <Route path="/board/:id" element={<BoardDetail />} />
+              <Route path="/board/write" element={<BoardWrite />} />
+              <Route path="/board/edit/:id" element={<BoardEdit />} />
+              <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/portfolio/:id" element={<PortfolioDetail />} />
+              <Route path="/portfolio/write" element={<PortfolioWrite />} />
+              <Route path="/portfolio/edit/:id" element={<PortfolioEdit />} />
+              <Route path="/contact" element={<Contact />} />
+            </Routes>
+          </div>
+        </Router>
       </AuthProvider>
   );
 }
