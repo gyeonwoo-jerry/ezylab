@@ -12,16 +12,6 @@
   overflow: hidden;
 }
 
-/* 유튜브 iframe 스타일링 */
-.video-background iframe {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 120vw;
-  height: 120vh;
-  transform: translate(-50%, -50%);
-  pointer-events: none; /* 비디오가 클릭되지 않도록 설정 */
-}
 
 .contact-page {/* 헤더랑 충분히 떨어지게 */
   display: flex;
@@ -117,7 +107,7 @@
 .submit-message {
   font-size: 20px;
   font-weight: bold;
-  color: #28a745; /* 초록색: 성공 느낌 */
+  color: var(--mint--color); /* 초록색: 성공 느낌 */
   padding: 20px 0;
   text-align: center;
 }

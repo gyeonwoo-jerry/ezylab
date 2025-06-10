@@ -19,7 +19,7 @@ import PortfolioEdit from "./pages/PortfolioEdit";
 function App() {
   return (
       <AuthProvider>
-      <Router>
+      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <div className="App" style={{ height: '100%' }}>
           <Header />
           <Routes>

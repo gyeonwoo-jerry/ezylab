@@ -54,13 +54,7 @@ const Contact = () => {
       <div className="contact-page">
         <div className="inner">
         <div className="video-background">
-          <iframe
-            src="https://www.youtube.com/embed/yPtnPlQT0MM?autoplay=1&mute=1&loop=1&playlist=yPtnPlQT0MM&controls=0&showinfo=0"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            title="배경 비디오"
-          ></iframe>
+          <video src="/images/contact_1.mp4" autoPlay loop muted playsinline></video>
         </div>
         <div className="contact-form">
           
