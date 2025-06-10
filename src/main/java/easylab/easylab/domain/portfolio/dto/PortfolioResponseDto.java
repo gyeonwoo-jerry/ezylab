@@ -12,6 +12,8 @@ public record PortfolioResponseDto(
     String title,
     String content,
     String author,
+    String url,
+    String type,
     List<ImageResponse> images,
     Long viewCount,
     LocalDateTime createdAt,
@@ -23,6 +25,8 @@ public record PortfolioResponseDto(
         .title(portfolio.getTitle())
         .content(portfolio.getContent())
         .author(portfolio.getUser().getName())
+        .url(portfolio.getUrl())
+        .type(portfolio.getType())
         .images(portfolio.getImages().stream()
             .map(img -> new ImageResponse(img.getId(), img.getImagePath()))
             .toList())
