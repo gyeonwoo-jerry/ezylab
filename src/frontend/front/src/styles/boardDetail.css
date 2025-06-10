@@ -1,3 +1,5 @@
+/* boardDetail.css */
+
 .board-detail-container {
   max-width: 1000px;
   margin: 0 auto;
@@ -29,11 +31,196 @@
 }
 
 .board-detail-content {
-  min-height: 300px;
+  min-height: 200px;
   line-height: 1.6;
   color: #333;
-  white-space: pre-wrap;
   margin-bottom: 30px;
+  padding: 20px 0;
+}
+
+.board-detail-content p {
+  margin: 0 0 10px 0;
+}
+
+/* 이미지 섹션 */
+.board-detail-images {
+  margin: 30px 0;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.board-detail-images h3 {
+  margin: 0 0 15px 0;
+  color: #495057;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.images-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.image-item {
+  background: white;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.board-detail-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.board-detail-image:hover {
+  transform: scale(1.02);
+}
+
+.image-info {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #6c757d;
+  text-align: center;
+}
+
+.image-error {
+  width: 100%;
+  height: 200px;
+  background-color: #f8f9fa;
+  border: 1px dashed #dee2e6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+/* 첨부파일 섹션 */
+.board-detail-attachments {
+  margin: 30px 0;
+  padding: 20px;
+  background-color: #f1f3f4;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.board-detail-attachments h3 {
+  margin: 0 0 15px 0;
+  color: #495057;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.attachment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.attachment-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+  transition: box-shadow 0.2s ease;
+}
+
+.attachment-item:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.attachment-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.attachment-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.attachment-link {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: 500;
+  word-break: break-all;
+}
+
+.attachment-link:hover {
+  text-decoration: underline;
+}
+
+.attachment-meta {
+  margin-top: 4px;
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.attachment-id {
+  background-color: #e9ecef;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.attachment-type {
+  background-color: #007bff;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.attachment-actions {
+  flex-shrink: 0;
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: #28a745;
+  color: white;
+  text-decoration: none;
+  border-radius: 50%;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.download-btn:hover {
+  background-color: #218838;
+  color: white;
+}
+
+/* 첨부파일이 없을 때 */
+.no-attachments {
+  margin: 30px 0;
+  padding: 40px;
+  text-align: center;
+  color: #6c757d;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px dashed #dee2e6;
+}
+
+.no-attachments p {
+  margin: 0;
+  font-style: italic;
 }
 
 /* 버튼 영역 */
@@ -41,10 +228,27 @@
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-top: 20px;
+  margin-top: 40px;
   padding-top: 20px;
   border-top: 1px solid #eee;
   flex-wrap: wrap;
+}
+
+.logged-in-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.guest-message {
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.action-message {
+  color: #6c757d;
+  font-size: 14px;
+  font-style: italic;
 }
 
 /* 공통 버튼 스타일 */
@@ -55,6 +259,7 @@
   cursor: pointer;
   transition: background-color 0.2s ease;
   border: none;
+  font-weight: 500;
 }
 
 /* 목록 버튼 */
@@ -88,6 +293,7 @@
   background-color: #c53030;
 }
 
+/* 로딩 및 에러 */
 .board-detail-loading,
 .board-detail-error {
   text-align: center;
@@ -100,27 +306,11 @@
   color: #d9534f;
 }
 
-.board-detail-images {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: flex-start;
-  margin-top: 20px;
-}
-
-.board-detail-image {
-  width: 300px;
-  height: 300px;
-  object-fit: cover;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  display: block;
-}
-
-/* 반응형 */
+/* 반응형 디자인 */
 @media (max-width: 768px) {
   .board-detail-container {
     padding: 15px;
+    margin: 10px;
   }
 
   .board-detail-title {
@@ -135,5 +325,31 @@
   .board-detail-actions {
     flex-direction: column;
     align-items: center;
+    gap: 15px;
+  }
+
+  .logged-in-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .images-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+  }
+
+  .attachment-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .attachment-meta {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .download-btn {
+    align-self: flex-end;
   }
 }
