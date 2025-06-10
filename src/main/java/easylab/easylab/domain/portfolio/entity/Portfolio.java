@@ -42,10 +42,10 @@ public class Portfolio extends BaseEntity {
   @Column(nullable = false)
   private String content;
 
-  @Column(nullable = false)
+  @Column
   private String url;
 
-  @Column(nullable = false)
+  @Column
   private String type;
 
   @Builder.Default
