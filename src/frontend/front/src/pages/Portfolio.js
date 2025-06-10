@@ -129,9 +129,11 @@ const Portfolio = () => {
                   포트폴리오 작성
                 </button>
             )}
-            <button className="refresh-btn" onClick={handleClearCache} title="데이터를 새로 불러옵니다">
-              새로고침
-            </button>
+            {isLoggedIn && (
+                <button className="refresh-btn" onClick={handleClearCache} title="데이터를 새로 불러옵니다">
+                  새로고침
+                </button>
+            )}
           </div>
         </div>
 
@@ -195,11 +197,13 @@ const Portfolio = () => {
         ) : (
             <div className="no-items-message">
               등록된 포트폴리오가 없습니다.
-              <button onClick={handleClearCache} className="retry-btn">다시 불러오기</button>
+              {isLoggedIn && (
+                  <button onClick={handleClearCache} className="retry-btn">다시 불러오기</button>
+              )}
             </div>
         )}
 
-        {process.env.NODE_ENV === 'development' && (
+        {process.env.NODE_ENV === 'development' && isLoggedIn && (
             <div className="debug-info">
               <details>
                 <summary>디버깅 정보</summary>
