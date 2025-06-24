@@ -4,9 +4,9 @@ spring:
       on-profile: dev # dev 프로파일
 
   datasource:
-    url: jdbc:mariadb://211.110.44.79:3306/ezylab_dev
+    url: jdbc:mariadb://211.110.44.28:3306/ezylab_dev
     username: itadmin #사용자
-    password: gthkds!83! #비밀번호
+    password: kdsgth!84! #비밀번호
     driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
@@ -37,5 +37,5 @@ logging:
     org.springframework.transaction: DEBUG # Spring 트랜잭션 로그 디버그(DEBUG) 모드 활성화
 
 filepath:
-  image: /uploads/images/
-  attachment: /uploads/attachments/
+  image: /data/uploads/ezylab/
+  attachment: /data/uploads/ezylab/attachments/

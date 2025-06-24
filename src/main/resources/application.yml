@@ -5,5 +5,5 @@ spring:
     include: dev
 
 filepath:
-  image: /uploads/images/
-  attachment: /uploads/attachments/
+  image: /data/uploads/ezylab/
+  attachment: /data/uploads/ezylab/attachments/

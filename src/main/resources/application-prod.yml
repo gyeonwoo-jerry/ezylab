@@ -19,5 +19,5 @@ spring:
         use_sql_comments: true
 
 filepath:
-  image: /uploads/images/
-  attachment: /uploads/attachments/
+  image: /data/uploads/ezylab/
+  attachment: /data/uploads/ezylab/attachments/
