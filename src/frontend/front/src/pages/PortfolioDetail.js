@@ -98,7 +98,7 @@ function PortfolioDetail() {
           {portfolio.images.map((imgPath, index) => (
             <img
               key={index}
-              src={`http://211.110.44.28:8580${imgPath}`}
+              src={`https://ezylab-dev.ezylab.co.kr/${imgPath}`}
               alt={`포트폴리오 이미지 ${index + 1}`}
               className="portfolio-image"
             />

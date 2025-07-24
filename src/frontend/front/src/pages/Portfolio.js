@@ -96,9 +96,9 @@ const Portfolio = () => {
 
     // 상대 경로인 경우 서버 URL과 결합
     if (imagePath.startsWith("/")) {
-      return `http://211.110.44.28:8580${imagePath}`;
+      return `https://ezylab-dev.ezylab.co.kr/${imagePath}`;
     } else {
-      return `http://211.110.44.28:8580/${imagePath}`;
+      return `https://ezylab-dev.ezylab.co.kr//${imagePath}`;
     }
   };
 

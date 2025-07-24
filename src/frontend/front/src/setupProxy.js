@@ -4,7 +4,7 @@ module.exports = function (app) {
   app.use(
     "/api",
     createProxyMiddleware({
-      target: "http://211.110.44.28:8580",
+      target: "https://ezylab-dev.ezylab.co.kr/",
       changeOrigin: true,
       secure: false,
       logLevel: "debug",

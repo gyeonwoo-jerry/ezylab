@@ -316,7 +316,7 @@ const PortfolioEdit = () => {
                 >
                   <div className="image-preview">
                     <img
-                      src={`http://211.110.44.28:8580${image}`}
+                      src={`https://ezylab-dev.ezylab.co.kr/${image}`}
                       alt="기존 이미지"
                       onError={(e) => {
                         e.target.style.display = "none";

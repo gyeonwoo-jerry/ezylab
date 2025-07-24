@@ -87,7 +87,7 @@ function BoardDetail() {
           <div className="images-grid">
             {post.images.map((image, index) => {
               // ImageResponse 구조: { id, url }
-              const imageSrc = `http://211.110.44.28:8580${image.url}`;
+              const imageSrc = `https://ezylab-dev.ezylab.co.kr/${image.url}`;
 
               return (
                 <div key={index} className="image-item">
@@ -154,7 +154,7 @@ function BoardDetail() {
                   </div>
                   <div className="attachment-details">
                     <a
-                      href={`http://211.110.44.28:8580${attachment.filePath}`}
+                      href={`https://ezylab-dev.ezylab.co.kr/${attachment.filePath}`}
                       download={attachment.originalFileName}
                       className="attachment-link"
                     >
@@ -169,7 +169,7 @@ function BoardDetail() {
                   </div>
                   <div className="attachment-actions">
                     <a
-                      href={`http://211.110.44.28:8580${attachment.filePath}`}
+                      href={`https://ezylab-dev.ezylab.co.kr/${attachment.filePath}`}
                       download={attachment.originalFileName}
                       className="download-btn"
                       title="다운로드"
