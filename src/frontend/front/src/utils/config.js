@@ -2,7 +2,7 @@
 
 // 로컬 개발 환경 (npm start로 실행 시)
 const local = {
-  apiUrl: "http://211.110.44.79:48080", // 로컬 개발 서버 URL
+  apiUrl: "http://211.110.44.28:8580", // 로컬 개발 서버 URL
 };
 
 // 개발 서버 환경 (빌드된 파일이 개발 서버의 Spring Boot static에서 서빙될 때)
