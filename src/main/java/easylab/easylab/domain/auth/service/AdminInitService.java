@@ -12,7 +12,9 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+// 관리자 계정 자동 생성 기능 비활성화
+// 필요시 @Service 어노테이션 주석을 해제하여 활성화할 수 있습니다.
+// @Service
 @RequiredArgsConstructor
 @Slf4j
 public class AdminInitService implements ApplicationRunner {
