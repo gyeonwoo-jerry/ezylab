@@ -1,9 +1,16 @@
 import axios from "axios";
 import config from "./config";
 
+// URL 결합 시 중복된 슬래시 제거 함수
+const joinUrl = (base, path) => {
+  const normalizedBase = base.replace(/\/+$/, ''); // 끝의 슬래시 제거
+  const normalizedPath = path.replace(/^\/+/, '/'); // 앞의 중복 슬래시를 하나로 만들기
+  return normalizedBase + normalizedPath;
+};
+
 // axios 인스턴스 생성
 const API = axios.create({
-  baseURL: config.apiUrl + "/api",
+  baseURL: joinUrl(config.apiUrl, "/api"),
   withCredentials: true, // 쿠키 사용 시 true (선택)
 });
 
