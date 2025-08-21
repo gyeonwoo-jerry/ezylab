@@ -4,9 +4,9 @@ spring:
       on-profile: prod
 
   datasource:
-    url: jdbc:mariadb://211.110.44.79:3306/ezylab_prod
+    url: jdbc:mariadb://211.110.44.28:3306/ezylab_prod
     username: itadmin #사용자
-    password: gthkds!83! #비밀번호
+    password: kdsgth!84! #비밀번호
     driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
@@ -19,5 +19,5 @@ spring:
         use_sql_comments: true
 
 filepath:
-  image: /data/uploads/ezylab/
-  attachment: /data/uploads/ezylab/attachments/
+  image: /data/uploads/ezylab_prod/
+  attachment: /data/uploads/ezylab_prod/attachments/

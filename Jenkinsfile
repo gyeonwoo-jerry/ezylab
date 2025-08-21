@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SPRING_PROFILE = 'dev'  // 여기에 원하는 프로파일을 설정
+        SPRING_PROFILE = 'prod'  // 여기에 원하는 프로파일을 설정
     }
 
     stages {
@@ -21,21 +21,21 @@ pipeline {
                     // 임시 컨테이너 생성하여 WAR 파일 추출
                     sh '''
                         # 컨테이너 생성
-                        docker create --name ezylab-temp-container ezylab-build
+                        docker create --name ezylab-temp-container-prod ezylab-build-prod
                         
                         # 빌드 디렉토리 삭제 및 출력 디렉토리 생성
                         rm -rf build-output || true
                         mkdir -p build-output
                         
                         # WAR 파일이 생성될 정확한 경로를 확인하여 복사
-                        docker cp ezylab-temp-container:/app/build/libs/easylab-0.0.1-SNAPSHOT.war build-output/
+                        docker cp ezylab-temp-container-prod:/app/build/libs/easylab-0.0.1-SNAPSHOT.war build-output/
                         
                         # WAR 파일이 실제로 존재하는지 확인
-                        #docker exec ezylab-temp-container ls /app/build/libs/
+                        #docker exec ezylab-temp-container-prod ls /app/build/libs/
                         
                         # 컨테이너 제거
-                        docker rm ezylab-temp-container
-                        docker rmi ezylab-build
+                        docker rm ezylab-temp-container-prod
+                        docker rmi ezylab-build-prod
                     '''
                 }
             }
@@ -57,9 +57,9 @@ pipeline {
                             transfers: [
                                 sshTransfer(
                                     sourceFiles: 'build-output/*.war',  // 전송할 파일
-                                    remoteDirectory: 'ezylab_dev/build', // 원격 서버 저장 경로
+                                    remoteDirectory: 'ezylab/build', // 원격 서버 저장 경로
                                     removePrefix: 'build-output', // 원격 경로에서 'build-output' 제거
-                                    execCommand: 'sudo -u tomcat /app/ezylab_dev/bin/ci_restart.sh' // 배포 후 서비스 재시작 (옵션)
+                                    execCommand: 'sudo -u tomcat /app/ezylab/bin/ci_restart.sh' // 배포 후 서비스 재시작 (옵션)
                                 )
                             ]
                         )
