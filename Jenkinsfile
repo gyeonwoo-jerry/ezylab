@@ -16,7 +16,7 @@ pipeline {
             steps {
                 script {
                     // Dockerfile을 사용하여 빌드 이미지 생성
-                    sh 'docker build --build-arg SPRING_PROFILE=${SPRING_PROFILE} -t ezylab-build -f Dockerfile.build .'
+                    sh 'docker build --build-arg SPRING_PROFILE=${SPRING_PROFILE} -t ezylab-build-prod -f Dockerfile.build .'
                     
                     // 임시 컨테이너 생성하여 WAR 파일 추출
                     sh '''
