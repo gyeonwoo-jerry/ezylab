@@ -21,3 +21,7 @@ spring:
 filepath:
   image: /data/uploads/ezylab_prod/
   attachment: /data/uploads/ezylab_prod/attachments/
+
+logging:
+  level:
+    root: INFO # 전체 애플리케이션 기본 로그 레벨
