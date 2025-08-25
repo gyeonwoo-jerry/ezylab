@@ -71,8 +71,8 @@ pipeline {
 
     post {
         success {
-            sh 'docker rm ezylab-temp-container || true'
-            sh 'docker rmi ezylab-build || true'
+            sh 'docker rm ezylab-temp-container-prod || true'
+            sh 'docker rmi ezylab-build-prod || true'
         }
         failure {
             echo "Build failed, keeping container for debugging."
