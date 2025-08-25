@@ -10,7 +10,7 @@ const containerStyle = {
 };
 
 const countdownStyle = {
-  marginTop: "20px",
+  marginTop: "50px",
 };
 
 const titleStyle = {
